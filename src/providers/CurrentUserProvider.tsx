@@ -8,12 +8,12 @@ type CurrentUser = {
     lastName: string;
 };
 
-type UserContextType = {
+type CurrentUserContextType = {
     currentUser: CurrentUser | null;
     setCurrentUser: (user: CurrentUser | null) => void;
 };
 
-const UserContext = createContext<UserContextType | null>(null);
+const CurrentUserContext = createContext<CurrentUserContextType | null>(null);
 
 function getCurrentUserFromStorage(): CurrentUser | null {
     const userString = localStorage.getItem("currentUser");
@@ -23,7 +23,7 @@ function getCurrentUserFromStorage(): CurrentUser | null {
     return JSON.parse(userString);
 }
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [currentUser, setCurrentUser] = useState<CurrentUser | null>(getCurrentUserFromStorage());
 
     const updateCurrentUser = (user: CurrentUser | null) => {
@@ -36,14 +36,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     return (
-        <UserContext.Provider value={{ currentUser, setCurrentUser: updateCurrentUser }}>
+        <CurrentUserContext.Provider value={{ currentUser, setCurrentUser: updateCurrentUser }}>
             {children}
-        </UserContext.Provider>
+        </CurrentUserContext.Provider>
     );
 };
 
-export const userCurrentUser = (): UserContextType => {
-    const context = useContext(UserContext);
+export const useCurrentUserContext = (): CurrentUserContextType => {
+    const context = useContext(CurrentUserContext);
     if (context === null) {
         throw new Error("userCurrentUser must be used within a UserProvider");
     }

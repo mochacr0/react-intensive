@@ -52,4 +52,10 @@ export const apiSlice = createApi({
     }),
 });
 
-export const { useRegisterMutation, useVerifyMutation, useLoginMutation, useGetCurrentUserQuery } = apiSlice;
+export const {
+    useRegisterMutation,
+    useVerifyMutation,
+    useLoginMutation,
+    useGetCurrentUserQuery,
+    useLazyGetCurrentUserQuery,
+} = apiSlice;

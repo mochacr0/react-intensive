@@ -4,14 +4,15 @@ import Grid from "@mui/material/Grid2";
 
 import HttpsIcon from "@mui/icons-material/Https";
 import { useFormik } from "formik";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { VerifyDto, VerifyResponseDto } from "../models/verifyModel";
-import { useVerifyMutation } from "../redux/features/apiSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { setAuthTokenPair } from "../redux/features/tokenSlice";
-import { AuthTokenPair } from "../models/tokenPairModels";
 import { useAppDispatch } from "../hooks/useAppSelector";
+import { AuthTokenPair } from "../models/tokenPairModels";
+import { VerifyDto } from "../models/verifyModel";
+import { useCurrentUserContext } from "../providers/CurrentUserProvider";
+import { useLazyGetCurrentUserQuery, useVerifyMutation } from "../redux/features/apiSlice";
+import { setAuthTokenPair } from "../redux/features/tokenSlice";
 
 type VerifyFormValues = {
     username: string;
@@ -29,7 +30,6 @@ const initialValues: VerifyFormValues = {
 };
 
 const VerifyForm = () => {
-    const [verify, verifyMutation] = useVerifyMutation();
     const formik = useFormik<VerifyFormValues>({
         initialValues,
         validationSchema,
@@ -37,6 +37,13 @@ const VerifyForm = () => {
     });
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { setCurrentUser } = useCurrentUserContext();
+    const [verify, verifyMutationResult] = useVerifyMutation();
+    const [getCurrentUserTrigger, getCurentUserQueryResult] = useLazyGetCurrentUserQuery();
+
+    function isLoading() {
+        return verifyMutationResult.isLoading || getCurentUserQueryResult.isLoading;
+    }
 
     async function handleSubmit(formData: VerifyFormValues) {
         const verifyDto: VerifyDto = {
@@ -61,10 +68,32 @@ const VerifyForm = () => {
             };
 
             dispatch(setAuthTokenPair(authTokenPair));
+            await fetchAndSetCurrentUserInfo();
             navigate("/");
         } catch (error) {
             toast.error("Failed to verify");
             console.error("Failed to verify: ", error);
+        }
+    }
+
+    async function fetchAndSetCurrentUserInfo() {
+        try {
+            const currentUserInfoDto = await getCurrentUserTrigger().unwrap();
+            if (currentUserInfoDto.status !== 200) {
+                console.log(`Failed to get current user info: ${currentUserInfoDto.message}`);
+                return;
+            }
+            const currrentUserDto = currentUserInfoDto.data;
+            const currentUser = {
+                userId: currrentUserDto.userId,
+                username: currrentUserDto.userName,
+                email: currrentUserDto.email,
+                firstName: currrentUserDto.firstName,
+                lastName: currrentUserDto.lastName,
+            };
+            setCurrentUser(currentUser);
+        } catch (error) {
+            console.error("Failed to fetch user info: ", error);
         }
     }
 
@@ -92,7 +121,7 @@ const VerifyForm = () => {
                                 error={formik.touched.username && Boolean(formik.errors.username)}
                                 helperText={formik.touched.username && formik.errors.username}
                                 onChange={formik.handleChange}
-                                disabled={verifyMutation.isLoading}
+                                disabled={isLoading()}
                             />
                         </Grid>
                         <Grid size={12}>
@@ -109,7 +138,7 @@ const VerifyForm = () => {
                                 error={formik.touched.verifyCode && Boolean(formik.errors.verifyCode)}
                                 helperText={formik.touched.verifyCode && formik.errors.verifyCode}
                                 onChange={formik.handleChange}
-                                disabled={verifyMutation.isLoading}
+                                disabled={isLoading()}
                             />
                         </Grid>
                     </Grid>
@@ -119,7 +148,7 @@ const VerifyForm = () => {
                         variant="contained"
                         color="primary"
                         className="mt-5"
-                        loading={verifyMutation.isLoading}
+                        loading={verifyMutationResult.isLoading}
                     >
                         Verify
                     </LoadingButton>

@@ -1,36 +1,30 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppSelector";
+import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
 import { clearAuthTokenPair } from "../../redux/features/tokenSlice";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useGetCurrentUserQuery, useVerifyMutation } from "../../redux/features/apiSlice";
 
 const pages = ["Products"];
 
 const Header = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-    const getCurrentUserQuery = useGetCurrentUserQuery();
-
-    useEffect(() => {
-        //load user information
-        // console.log(getCurrentUserQuery.data);
-    }, [location]);
+    const { currentUser, setCurrentUser } = useCurrentUserContext();
 
     function handleOpenNavMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElNav(event.currentTarget);
@@ -50,6 +44,7 @@ const Header = () => {
 
     function handleLogout() {
         dispatch(clearAuthTokenPair());
+        setCurrentUser(null);
         navigate("/login");
     }
 
@@ -121,7 +116,7 @@ const Header = () => {
                     <Box className="flex-grow-0">
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} className="p-0">
-                                <Avatar alt="Remy Sharp" src="#" />
+                                <Avatar alt={currentUser?.firstName} src="#" />
                             </IconButton>
                         </Tooltip>
                         <Menu

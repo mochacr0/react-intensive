@@ -3,14 +3,14 @@ import "react-toastify/dist/ReactToastify.min.css";
 import router from "./routes/router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { UserProvider } from "./providers/UserProvider";
+import { CurrentUserProvider } from "./providers/CurrentUserProvider";
 
 const App = () => {
     return (
         <Provider store={store}>
-            <UserProvider>
+            <CurrentUserProvider>
                 <RouterProvider router={router} />
-            </UserProvider>
+            </CurrentUserProvider>
         </Provider>
     );
 };
