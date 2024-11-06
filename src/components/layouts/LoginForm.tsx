@@ -6,31 +6,29 @@ import HttpsIcon from "@mui/icons-material/Https";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { VerifyDto, VerifyResponseDto } from "../models/verifyModel";
-import { useVerifyMutation } from "../redux/features/apiSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { setAuthTokenPair } from "../redux/features/tokenSlice";
-import { AuthTokenPair } from "../models/tokenPairModels";
-import { useAppDispatch } from "../hooks/useAppSelector";
+import { LoginDto } from "../../models/loginModels";
+import { useLoginMutation } from "../../redux/features/apiSlice";
+import { useAppDispatch } from "../../hooks/useAppSelector";
 
-type VerifyFormValues = {
+type LoginFormValues = {
     username: string;
-    verifyCode: string;
+    password: string;
 };
 
 const validationSchema = Yup.object({
     username: Yup.string().required("Username is required"),
-    verifyCode: Yup.string().required("Verify code is required"),
+    password: Yup.string().required("Password is required"),
 });
 
-const initialValues: VerifyFormValues = {
+const initialValues: LoginFormValues = {
     username: "",
-    verifyCode: "",
+    password: "",
 };
 
-const VerifyForm = () => {
-    const [verify, verifyMutation] = useVerifyMutation();
-    const formik = useFormik<VerifyFormValues>({
+const LoginForm = () => {
+    const [login, loginMutation] = useLoginMutation();
+    const formik = useFormik<LoginFormValues>({
         initialValues,
         validationSchema,
         onSubmit: handleSubmit,
@@ -38,33 +36,23 @@ const VerifyForm = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    async function handleSubmit(formData: VerifyFormValues) {
-        const verifyDto: VerifyDto = {
-            userName: formData.username,
-            code: formData.verifyCode,
-        };
-
+    async function handleSubmit(formData: LoginFormValues) {
         try {
-            const response = await verify(verifyDto).unwrap();
-
+            const loginDto: LoginDto = {
+                userName: formData.username,
+                password: formData.password,
+            };
+            const response = await login(loginDto).unwrap();
             if (response.status !== 200) {
-                toast.error(`Failed to verify: ${response.message}`);
+                toast.error("Failed to login: " + response.message);
                 return;
             }
-
             toast.success(response.message);
             formik.resetForm();
-
-            const authTokenPair: AuthTokenPair = {
-                accessToken: response.data.token,
-                refreshToken: response.data.refreshToken,
-            };
-
-            dispatch(setAuthTokenPair(authTokenPair));
-            navigate("/");
+            navigate("/verify");
         } catch (error) {
-            toast.error("Failed to verify");
-            console.error("Failed to verify: ", error);
+            toast.error("Failed to login");
+            console.log("Failed to login: ", loginMutation.error);
         }
     }
 
@@ -75,7 +63,7 @@ const VerifyForm = () => {
                     <HttpsIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Verify
+                    Login
                 </Typography>
                 <form noValidate className="w-full" onSubmit={formik.handleSubmit}>
                     <Grid container columnSpacing={2}>
@@ -92,7 +80,7 @@ const VerifyForm = () => {
                                 error={formik.touched.username && Boolean(formik.errors.username)}
                                 helperText={formik.touched.username && formik.errors.username}
                                 onChange={formik.handleChange}
-                                disabled={verifyMutation.isLoading}
+                                disabled={loginMutation.isLoading}
                             />
                         </Grid>
                         <Grid size={12}>
@@ -101,15 +89,15 @@ const VerifyForm = () => {
                                 margin="dense"
                                 required
                                 fullWidth
-                                name="verifyCode"
-                                label="Verify code"
-                                type="text"
+                                name="password"
+                                label="Password"
+                                type="password"
                                 size="small"
-                                value={formik.values.verifyCode}
-                                error={formik.touched.verifyCode && Boolean(formik.errors.verifyCode)}
-                                helperText={formik.touched.verifyCode && formik.errors.verifyCode}
+                                value={formik.values.password}
+                                error={formik.touched.password && Boolean(formik.errors.password)}
+                                helperText={formik.touched.password && formik.errors.password}
                                 onChange={formik.handleChange}
-                                disabled={verifyMutation.isLoading}
+                                disabled={loginMutation.isLoading}
                             />
                         </Grid>
                     </Grid>
@@ -119,23 +107,14 @@ const VerifyForm = () => {
                         variant="contained"
                         color="primary"
                         className="mt-5"
-                        loading={verifyMutation.isLoading}
+                        loading={loginMutation.isLoading}
                     >
-                        Verify
+                        Login
                     </LoadingButton>
-                    <Box className="mt-5 flex justify-center">
-                        <Box>
-                            <Link to="/register" className="no-underline">
-                                <Typography variant="body2" color="primary">
-                                    Didn't receive the code? Create a new account
-                                </Typography>
-                            </Link>
-                        </Box>
-                    </Box>
                 </form>
             </Box>
         </Container>
     );
 };
 
-export default VerifyForm;
+export default LoginForm;

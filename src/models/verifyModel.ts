@@ -6,4 +6,8 @@ export type VerifyDto = {
 export type VerifyResponseDto = {
     status: number;
     message: string;
+    data: {
+        token: string;
+        refreshToken: string;
+    };
 };

@@ -80,7 +80,7 @@ const RegisterForm = () => {
     return (
         <Container component="main" maxWidth="xs">
             <Box className="m-auto flex flex-col items-center">
-                <Avatar>
+                <Avatar className="m-1">
                     <HttpsIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -205,7 +205,7 @@ const RegisterForm = () => {
                         <Box>
                             <Link to="/login" className="no-underline">
                                 <Typography variant="body2" color="primary">
-                                    Already had an account? Sign In
+                                    Already have an account? Sign In
                                 </Typography>
                             </Link>
                         </Box>

@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,28 +11,47 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useAppDispatch } from "../../hooks/useAppSelector";
+import { clearAuthTokenPair } from "../../redux/features/tokenSlice";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useGetCurrentUserQuery, useVerifyMutation } from "../../redux/features/apiSlice";
 
 const pages = ["Products"];
-const settings = ["Logout"];
 
 const Header = () => {
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const getCurrentUserQuery = useGetCurrentUserQuery();
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    useEffect(() => {
+        //load user information
+        // console.log(getCurrentUserQuery.data);
+    }, [location]);
+
+    function handleOpenNavMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    }
+
+    function handleOpenUserMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElUser(event.currentTarget);
-    };
+    }
 
-    const handleCloseNavMenu = () => {
+    function handleCloseNavMenu() {
         setAnchorElNav(null);
-    };
+    }
 
-    const handleCloseUserMenu = () => {
+    function handleCloseUserMenu() {
         setAnchorElUser(null);
-    };
+    }
+
+    function handleLogout() {
+        dispatch(clearAuthTokenPair());
+        navigate("/login");
+    }
 
     return (
         <AppBar position="static" className="mb-5">
@@ -122,11 +140,11 @@ const Header = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography sx={{ px: "16px" }}>{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem key="logout" onClick={handleCloseUserMenu}>
+                                <Typography sx={{ px: "16px" }} onClick={handleLogout}>
+                                    Logout
+                                </Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
