@@ -12,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppSelector";
 import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
 import { clearAuthTokenPair } from "../../redux/features/tokenSlice";
@@ -53,15 +53,16 @@ const Header = () => {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon className="mr-1 hidden md:flex" />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        className="mr-2 hidden font-bold tracking-[.3rem] text-inherit no-underline md:flex"
-                    >
-                        LOGO
-                    </Typography>
+                    <Link to="/" className="text-white no-underline">
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            className="mr-2 hidden font-bold tracking-[.3rem] text-inherit no-underline md:flex"
+                        >
+                            LOGO
+                        </Typography>
+                    </Link>
 
                     <Box className="flex flex-grow md:hidden">
                         <IconButton
@@ -114,33 +115,46 @@ const Header = () => {
                         ))}
                     </Box>
                     <Box className="flex-grow-0">
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} className="p-0">
-                                <Avatar alt={currentUser?.firstName} src="#" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <MenuItem key="logout" onClick={handleCloseUserMenu}>
-                                <Typography sx={{ px: "16px" }} onClick={handleLogout}>
-                                    Logout
-                                </Typography>
-                            </MenuItem>
-                        </Menu>
+                        {currentUser ? (
+                            <>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} className="p-0">
+                                        <Avatar alt={currentUser?.firstName} src="#" />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: "45px" }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right",
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right",
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    <MenuItem key="logout" onClick={handleCloseUserMenu}>
+                                        <Typography sx={{ px: "16px" }} onClick={handleLogout}>
+                                            Logout
+                                        </Typography>
+                                    </MenuItem>
+                                </Menu>
+                            </>
+                        ) : (
+                            <Box>
+                                <Link to="/login">
+                                    <Button className="my-2 px-6 text-white">Login</Button>
+                                </Link>
+                                <Link to="/register">
+                                    <Button className="my-2 text-white">Register</Button>
+                                </Link>{" "}
+                            </Box>
+                        )}
                     </Box>
                 </Toolbar>
             </Container>
