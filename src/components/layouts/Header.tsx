@@ -17,7 +17,12 @@ import { useAppDispatch } from "../../hooks/useAppSelector";
 import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
 import { clearAuthTokenPair } from "../../redux/features/tokenSlice";
 
-const pages = ["Products"];
+type HeaderItem = {
+    name: string;
+    path: string;
+};
+
+const headerItems: HeaderItem[] = [{ name: "Products", path: "/products" }];
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -48,29 +53,17 @@ const Header = () => {
         navigate("/login");
     }
 
+    function handleHeaderItemClicked(headerItem: HeaderItem) {
+        handleCloseNavMenu();
+        navigate(headerItem.path);
+    }
+
     return (
         <AppBar position="fixed" className="mb-5">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon className="mr-1 hidden md:flex" />
-                    <Link to="/" className="text-white no-underline">
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            className="mr-2 hidden font-bold tracking-[.3rem] text-inherit no-underline md:flex"
-                        >
-                            LOGO
-                        </Typography>
-                    </Link>
-
-                    <Box className="flex flex-grow md:hidden">
-                        <IconButton
-                            size="large"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
+                    <Box className="flex md:hidden">
+                        <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
                             <MenuIcon />
                         </IconButton>
                         <Menu
@@ -89,30 +82,56 @@ const Header = () => {
                             onClose={handleCloseNavMenu}
                             className="block md:hidden"
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography className="text-center">{page}</Typography>
+                            {headerItems.map((headerItem) => (
+                                <MenuItem
+                                    key={headerItem.path}
+                                    onClick={() => {
+                                        handleHeaderItemClicked(headerItem);
+                                    }}
+                                >
+                                    <Typography className="text-center">{headerItem.name + "Mobile"}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon className="mr-1 flex md:hidden" />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        className="mr-2 flex flex-grow font-bold tracking-[.3rem] text-inherit no-underline md:hidden"
-                    >
-                        LOGO
-                    </Typography>
+
+                    <Box className="flex flex-grow items-center justify-center md:hidden">
+                        <AdbIcon className="mr-1" />
+                        <Link to="/" className="block text-white no-underline">
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                className="mr-2 flex-grow font-bold tracking-[.3rem] text-inherit no-underline md:hidden"
+                            >
+                                LOGO Mobile
+                            </Typography>
+                        </Link>
+                    </Box>
+
+                    <Box className="hidden md:flex">
+                        <AdbIcon className="mr-1" />
+                        <Link to="/" className="text-white no-underline">
+                            <Typography
+                                variant="h6"
+                                noWrap
+                                className="mr-2 hidden font-bold tracking-[.3rem] text-inherit no-underline md:flex"
+                            >
+                                LOGO PC
+                            </Typography>
+                        </Link>
+                    </Box>
+
                     <Box className="hidden flex-grow md:flex">
-                        {pages.map((page) => (
-                            <Button className="my-2 block text-white" key={page} onClick={handleCloseNavMenu}>
-                                {page}
-                            </Button>
+                        {headerItems.map((headerItem) => (
+                            <Link to={headerItem.path}>
+                                <Button className="my-2 text-white no-underline" key={headerItem.path}>
+                                    {headerItem.name}
+                                </Button>
+                            </Link>
                         ))}
                     </Box>
+
                     <Box className="flex-grow-0">
                         {currentUser ? (
                             <>
@@ -123,7 +142,6 @@ const Header = () => {
                                 </Tooltip>
                                 <Menu
                                     sx={{ mt: "45px" }}
-                                    id="menu-appbar"
                                     anchorEl={anchorElUser}
                                     anchorOrigin={{
                                         vertical: "top",

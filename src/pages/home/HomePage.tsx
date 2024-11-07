@@ -1,39 +1,42 @@
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppSelector";
 import { decrement, increment } from "../../redux/features/counterSlice";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const HomePage = () => {
     const counterValue = useAppSelector((state) => state.counter.value);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     return (
         <>
             <div className="text-3xl font-bold underline">Hello World</div>
-            <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border-none"
+            <Button
+                variant="contained"
                 onClick={() => {
                     toast.info("Hello World!");
                 }}
             >
                 Toast!
-            </button>
+            </Button>
             <div className="text-3xl font-bold">{counterValue}</div>
-            <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border-none"
+            <Button
+                variant="contained"
                 onClick={() => {
                     dispatch(increment());
                 }}
             >
                 Increment
-            </button>
-            <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border-none"
+            </Button>
+            <Button
+                variant="contained"
                 onClick={() => {
                     dispatch(decrement());
                 }}
             >
                 Decrement
-            </button>
+            </Button>
         </>
     );
 };

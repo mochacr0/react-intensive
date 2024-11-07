@@ -4,12 +4,11 @@ import Grid from "@mui/material/Grid2";
 
 import HttpsIcon from "@mui/icons-material/Https";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
 import { LoginDto } from "../../models/loginModels";
 import { useLoginMutation } from "../../redux/features/apiSlice";
-import { useAppDispatch } from "../../hooks/useAppSelector";
 
 type LoginFormValues = {
     username: string;
@@ -34,7 +33,6 @@ const LoginForm = () => {
         onSubmit: handleSubmit,
     });
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
     async function handleSubmit(formData: LoginFormValues) {
         try {

@@ -69,7 +69,7 @@ const VerifyForm = () => {
 
             dispatch(setAuthTokenPair(authTokenPair));
             await fetchAndSetCurrentUserInfo();
-            navigate("/orders");
+            navigate("/products");
         } catch (error) {
             toast.error("Failed to verify");
             console.error("Failed to verify: ", error);
