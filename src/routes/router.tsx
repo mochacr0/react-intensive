@@ -1,22 +1,41 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "../pages/home/HomePage";
-import ErrorPage from "../pages/error/ErrorPage";
 import DefaultLayout from "../components/layouts/DefaultLayout";
+import ErrorPage from "../pages/error/ErrorPage";
+import HomePage from "../pages/home/HomePage";
+import LoginPage from "../pages/login/LoginPage";
+import MyAccountPage from "../pages/account/MyAccountPage";
 import RegisterPage from "../pages/register/RegisterPage";
 import VerifyPage from "../pages/verify/VerifyPage";
-import LoginPage from "../pages/login/LoginPage";
-import OrderPage from "../pages/order/OrderPage";
+import MyOrders from "../pages/account/MyOrders";
+import MyProfile from "../pages/account/MyProfile";
+import RequiresAuth from "./RequiresAuth";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <DefaultLayout />,
         children: [
-            { path: "/", element: <HomePage />, index: true },
+            {
+                path: "/",
+                element: <HomePage />,
+                index: true,
+            },
             { path: "/register", element: <RegisterPage /> },
             { path: "/verify", element: <VerifyPage /> },
             { path: "/login", element: <LoginPage /> },
-            { path: "/orders", element: <OrderPage /> },
+            {
+                path: "/account",
+                element: (
+                    <RequiresAuth>
+                        <MyAccountPage />
+                    </RequiresAuth>
+                ),
+                children: [
+                    { path: "", element: <MyProfile />, index: true },
+                    { path: "profile", element: <MyProfile /> },
+                    { path: "orders", element: <MyOrders /> },
+                ],
+            },
         ],
         errorElement: <ErrorPage />,
     },

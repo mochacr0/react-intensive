@@ -5,13 +5,12 @@ import { VerifyDto, VerifyResponseDto } from "../../models/verifyModel";
 import { LoginDto, LoginResponseDto } from "../../models/loginModels";
 import { UserInfoDto } from "../../models/userInfoModel";
 
-// const API_BASE_URL = import.meta.env.API_BASE_URL;
-// console.log(API_BASE_URL);
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://ccmernapp-11a99251a1a7.herokuapp.com",
+        baseUrl: `${API_BASE_URL}`,
         prepareHeaders: (headers) => {
             const authTokenPairString = localStorage.getItem("authTokenPair");
             if (!authTokenPairString) {

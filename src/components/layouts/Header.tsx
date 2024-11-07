@@ -49,7 +49,7 @@ const Header = () => {
     }
 
     return (
-        <AppBar position="static" className="mb-5">
+        <AppBar position="fixed" className="mb-5">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon className="mr-1 hidden md:flex" />
@@ -57,7 +57,6 @@ const Header = () => {
                         <Typography
                             variant="h6"
                             noWrap
-                            component="a"
                             className="mr-2 hidden font-bold tracking-[.3rem] text-inherit no-underline md:flex"
                         >
                             LOGO
