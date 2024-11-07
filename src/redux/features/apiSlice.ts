@@ -4,6 +4,8 @@ import { RegisterDto, RegisterResponseDto } from "../../models/registerModel";
 import { VerifyDto, VerifyResponseDto } from "../../models/verifyModel";
 import { LoginDto, LoginResponseDto } from "../../models/loginModels";
 import { UserInfoDto } from "../../models/userInfoModel";
+import { OrderDto } from "../../models/orderModels";
+import { orderSamples } from "../../common/mock/orderSamples";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -48,6 +50,21 @@ export const apiSlice = createApi({
         getCurrentUser: builder.query<UserInfoDto, void>({
             query: () => ({ url: `/api/user` }),
         }),
+        getOrders: builder.query<OrderDto[], void>({
+            queryFn: async () => {
+                async function getOrderSamples(): Promise<OrderDto[]> {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve(orderSamples);
+                        }, 5000);
+                    });
+                }
+                console.log("Heyyyy");
+                const orders = await getOrderSamples();
+
+                return { data: orders };
+            },
+        }),
     }),
 });
 
@@ -57,4 +74,5 @@ export const {
     useLoginMutation,
     useGetCurrentUserQuery,
     useLazyGetCurrentUserQuery,
+    useGetOrdersQuery,
 } = apiSlice;

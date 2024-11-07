@@ -9,7 +9,7 @@ const MyProfile: React.FC = () => {
             <CardHeader title="Profile" />
             <Box className="mx-4">
                 <form noValidate className="w-full">
-                    <Grid container columnSpacing={2}>
+                    <Grid container columnSpacing={2} rowSpacing={2}>
                         <Grid size={6}>
                             <TextField
                                 variant="outlined"

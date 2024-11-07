@@ -9,6 +9,7 @@ import VerifyPage from "../pages/verify/VerifyPage";
 import MyOrders from "../pages/account/MyOrders";
 import MyProfile from "../pages/account/MyProfile";
 import RequiresAuth from "./RequiresAuth";
+import ProductCatalogPage from "../pages/productCatalog/ProductCatalogPage";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
                     { path: "orders", element: <MyOrders /> },
                 ],
             },
+            { path: "/products", element: <ProductCatalogPage /> },
         ],
         errorElement: <ErrorPage />,
     },
