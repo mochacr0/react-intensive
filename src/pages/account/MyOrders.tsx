@@ -2,6 +2,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Box, Button, CardHeader } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useGetOrdersQuery } from "../../redux/features/apiSlice";
+import Loading from "../../components/layouts/Loading";
 
 const columns: GridColDef[] = [
     { field: "orderNumber", headerName: "Order Number", width: 200 },
@@ -34,28 +35,38 @@ const MyOrders: React.FC = () => {
             <CardHeader
                 title="Orders"
                 action={
-                    <Button className="self-end" variant="outlined" endIcon={<RestartAltIcon />} onClick={handleReload}>
+                    <Button
+                        className="self-end"
+                        variant="outlined"
+                        endIcon={<RestartAltIcon />}
+                        onClick={handleReload}
+                        disabled={isLoading}
+                    >
                         Reload
                     </Button>
                 }
             />
-            <Box className="mx-4 flex flex-col">
-                <DataGrid
-                    rows={data || []}
-                    columns={columns}
-                    initialState={{ pagination: { paginationModel } }}
-                    pageSizeOptions={[5, 10]}
-                    sx={{ border: 0 }}
-                    getRowId={(row) => row.orderNumber}
-                    loading={isLoading}
-                    slotProps={{
-                        loadingOverlay: {
-                            variant: "skeleton",
-                            noRowsVariant: "skeleton",
-                        },
-                    }}
-                />
-            </Box>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <Box className="mx-4 flex flex-col">
+                    <DataGrid
+                        rows={data || []}
+                        columns={columns}
+                        initialState={{ pagination: { paginationModel } }}
+                        pageSizeOptions={[5, 10]}
+                        sx={{ border: 0 }}
+                        getRowId={(row) => row.orderNumber}
+                        loading={isLoading}
+                        slotProps={{
+                            loadingOverlay: {
+                                variant: "skeleton",
+                                noRowsVariant: "skeleton",
+                            },
+                        }}
+                    />
+                </Box>
+            )}
         </>
     );
 };

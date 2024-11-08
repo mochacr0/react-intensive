@@ -6,6 +6,8 @@ import { LoginDto, LoginResponseDto } from "../../models/loginModels";
 import { UserInfoDto } from "../../models/userInfoModel";
 import { OrderDto } from "../../models/orderModels";
 import { orderSamples } from "../../common/mock/orderSamples";
+import { GetProductsDto } from "../../models/productModels";
+import { GetCategoriesDto } from "../../models/categoryModels";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -65,6 +67,12 @@ export const apiSlice = createApi({
                 return { data: orders };
             },
         }),
+        getProducts: builder.query<GetProductsDto, void>({
+            query: () => ({ url: `/api/shop/products` }),
+        }),
+        getCategories: builder.query<GetCategoriesDto, void>({
+            query: () => ({ url: `/api/shop/categories` }),
+        }),
     }),
 });
 
@@ -72,7 +80,8 @@ export const {
     useRegisterMutation,
     useVerifyMutation,
     useLoginMutation,
-    useGetCurrentUserQuery,
     useLazyGetCurrentUserQuery,
     useGetOrdersQuery,
+    useGetProductsQuery,
+    useGetCategoriesQuery,
 } = apiSlice;

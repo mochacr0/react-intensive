@@ -7,7 +7,7 @@ const DefaultLayout = () => {
     return (
         <>
             <Header />
-            <Container className="mt-20 px-8" maxWidth="lg">
+            <Container className="mt-20 px-24" maxWidth="xl">
                 <Outlet />
             </Container>
             <CustomToastContainer />

@@ -17,12 +17,13 @@ import { useAppDispatch } from "../../hooks/useAppSelector";
 import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
 import { clearAuthTokenPair } from "../../redux/features/tokenSlice";
 
-type HeaderItem = {
+type NavigationItems = {
     name: string;
     path: string;
 };
 
-const headerItems: HeaderItem[] = [{ name: "Products", path: "/products" }];
+const navigationItems: NavigationItems[] = [{ name: "Products", path: "/products" }];
+const accountItems: NavigationItems[] = [{ name: "Account", path: "/account" }];
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -53,8 +54,9 @@ const Header = () => {
         navigate("/login");
     }
 
-    function handleHeaderItemClicked(headerItem: HeaderItem) {
+    function handleNagivationItemClicked(headerItem: NavigationItems) {
         handleCloseNavMenu();
+        handleCloseUserMenu();
         navigate(headerItem.path);
     }
 
@@ -82,11 +84,11 @@ const Header = () => {
                             onClose={handleCloseNavMenu}
                             className="block md:hidden"
                         >
-                            {headerItems.map((headerItem) => (
+                            {navigationItems.map((headerItem) => (
                                 <MenuItem
                                     key={headerItem.path}
                                     onClick={() => {
-                                        handleHeaderItemClicked(headerItem);
+                                        handleNagivationItemClicked(headerItem);
                                     }}
                                 >
                                     <Typography className="text-center">{headerItem.name + "Mobile"}</Typography>
@@ -101,7 +103,6 @@ const Header = () => {
                             <Typography
                                 variant="h5"
                                 noWrap
-                                component="a"
                                 className="mr-2 flex-grow font-bold tracking-[.3rem] text-inherit no-underline md:hidden"
                             >
                                 LOGO Mobile
@@ -123,8 +124,8 @@ const Header = () => {
                     </Box>
 
                     <Box className="hidden flex-grow md:flex">
-                        {headerItems.map((headerItem) => (
-                            <Link to={headerItem.path}>
+                        {navigationItems.map((headerItem) => (
+                            <Link to={headerItem.path} key={headerItem.path}>
                                 <Button className="my-2 text-white no-underline" key={headerItem.path}>
                                     {headerItem.name}
                                 </Button>
@@ -155,6 +156,16 @@ const Header = () => {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
+                                    {accountItems.map((accountItem) => (
+                                        <MenuItem
+                                            key={accountItem.path}
+                                            onClick={() => {
+                                                handleNagivationItemClicked(accountItem);
+                                            }}
+                                        >
+                                            <Typography sx={{ px: "16px" }}>{accountItem.name}</Typography>
+                                        </MenuItem>
+                                    ))}
                                     <MenuItem key="logout" onClick={handleCloseUserMenu}>
                                         <Typography sx={{ px: "16px" }} onClick={handleLogout}>
                                             Logout
