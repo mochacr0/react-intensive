@@ -1,17 +1,15 @@
+import HttpsIcon from "@mui/icons-material/Https";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Avatar, Box, Container, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
-import HttpsIcon from "@mui/icons-material/Https";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { useAppDispatch } from "../hooks/useAppSelector";
-import { AuthTokenPair } from "../models/tokenPairModels";
-import { VerifyDto } from "../models/verifyModel";
+import { AuthTokenPair, VerifyRequest } from "../models/authModels";
 import { useCurrentUserContext } from "../providers/CurrentUserProvider";
-import { useLazyGetCurrentUserQuery, useVerifyMutation } from "../redux/features/apiSlice";
+import { useLazyGetUserInfoQuery, useVerifyMutation } from "../redux/features/apiSlice";
 import { setAuthTokenPair } from "../redux/features/tokenSlice";
 
 type VerifyFormValues = {
@@ -39,32 +37,32 @@ const VerifyForm = () => {
     const dispatch = useAppDispatch();
     const { setCurrentUser } = useCurrentUserContext();
     const [verify, verifyMutationResult] = useVerifyMutation();
-    const [getCurrentUserTrigger, getCurentUserQueryResult] = useLazyGetCurrentUserQuery();
+    const [getUserInfoTrigger, getUserInfoQueryResult] = useLazyGetUserInfoQuery();
 
     function isLoading() {
-        return verifyMutationResult.isLoading || getCurentUserQueryResult.isLoading;
+        return verifyMutationResult.isLoading || getUserInfoQueryResult.isLoading;
     }
 
     async function handleSubmit(formData: VerifyFormValues) {
-        const verifyDto: VerifyDto = {
+        const verifyRequest: VerifyRequest = {
             userName: formData.username,
             code: formData.verifyCode,
         };
 
         try {
-            const response = await verify(verifyDto).unwrap();
+            const verifyResponse = await verify(verifyRequest).unwrap();
 
-            if (response.status !== 200) {
-                toast.error(`Failed to verify: ${response.message}`);
+            if (verifyResponse.status !== 200) {
+                toast.error(`Failed to verify: ${verifyResponse.message}`);
                 return;
             }
 
-            toast.success(response.message);
+            toast.success(verifyResponse.message);
             formik.resetForm();
 
             const authTokenPair: AuthTokenPair = {
-                accessToken: response.data.token,
-                refreshToken: response.data.refreshToken,
+                token: verifyResponse.data.token,
+                refreshToken: verifyResponse.data.refreshToken,
             };
 
             dispatch(setAuthTokenPair(authTokenPair));
@@ -78,18 +76,18 @@ const VerifyForm = () => {
 
     async function fetchAndSetCurrentUserInfo() {
         try {
-            const currentUserInfoDto = await getCurrentUserTrigger().unwrap();
-            if (currentUserInfoDto.status >= 400) {
-                console.log(`Failed to get current user info: ${currentUserInfoDto.message}`);
+            const getUserInfoResponse = await getUserInfoTrigger().unwrap();
+            if (getUserInfoResponse.status >= 400) {
+                console.log(`Failed to get current user info: ${getUserInfoResponse.message}`);
                 return;
             }
-            const currrentUserDto = currentUserInfoDto.data;
+            const userInfo = getUserInfoResponse.data;
             const currentUser = {
-                userId: currrentUserDto.userId,
-                username: currrentUserDto.userName,
-                email: currrentUserDto.email,
-                firstName: currrentUserDto.firstName,
-                lastName: currrentUserDto.lastName,
+                userId: userInfo.userId,
+                username: userInfo.userName,
+                email: userInfo.email,
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
             };
             setCurrentUser(currentUser);
         } catch (error) {

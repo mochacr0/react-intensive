@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GetCategoriesDto } from "../../models/categoryModels";
-import { LoginDto, LoginResponseDto } from "../../models/loginModels";
-import { CreateOrderDto, CreateOrderResponseDto, GetOrdersDto } from "../../models/orderModels";
-import { GetProductsDto } from "../../models/productModels";
-import { RegisterDto, RegisterResponseDto } from "../../models/registerModel";
-import { UserInfoDto } from "../../models/userInfoModel";
-import { VerifyDto, VerifyResponseDto } from "../../models/verifyModel";
-import { AuthTokenPair } from "./../../models/tokenPairModels";
+import { AuthTokenPair, LoginRequest, LoginResponse, VerifyRequest, VerifyResponse } from "../../models/authModels";
+import { GetCategoriesResponse } from "../../models/categoryModels";
+import { GetOrdersRequest, PlaceOrderRequest, PlaceOrderResponse } from "../../models/orderModels";
+import { GetProductResponse } from "../../models/productModels";
+import { RegisterRequest, RegisterResponse } from "../../models/registerModel";
+import { GetUserInfoResponse } from "../../models/userInfoModel";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,53 +19,53 @@ export const apiSlice = createApi({
             }
             const authTokenPair: AuthTokenPair = JSON.parse(authTokenPairString);
             if (authTokenPair) {
-                headers.set("Authorization", `Bearer ${authTokenPair.accessToken}`);
+                headers.set("Authorization", `Bearer ${authTokenPair.token}`);
             }
             return headers;
         },
     }),
     tagTypes: ["User", "Order", "Product", "Category"],
     endpoints: (builder) => ({
-        register: builder.mutation<RegisterResponseDto, RegisterDto>({
-            query: (registerDto) => ({
+        register: builder.mutation<RegisterResponse, RegisterRequest>({
+            query: (registerRequest) => ({
                 url: `/api/auth/register`,
                 method: "POST",
-                body: registerDto,
+                body: registerRequest,
             }),
         }),
-        verify: builder.mutation<VerifyResponseDto, VerifyDto>({
-            query: (verifyDto) => ({
+        verify: builder.mutation<VerifyResponse, VerifyRequest>({
+            query: (verifyRequest) => ({
                 url: `/api/auth/verify`,
                 method: "POST",
-                body: verifyDto,
+                body: verifyRequest,
             }),
         }),
-        login: builder.mutation<LoginResponseDto, LoginDto>({
-            query: (loginDto) => ({
+        login: builder.mutation<LoginResponse, LoginRequest>({
+            query: (loginRequest) => ({
                 url: `/api/auth/login`,
                 method: "POST",
-                body: loginDto,
+                body: loginRequest,
             }),
         }),
-        getCurrentUser: builder.query<UserInfoDto, void>({
+        getUserInfo: builder.query<GetUserInfoResponse, void>({
             query: () => ({ url: `/api/user` }),
         }),
-        getOrders: builder.query<GetOrdersDto, void>({
+        getOrders: builder.query<GetOrdersRequest, void>({
             query: () => ({ url: `/api/shop/orders` }),
             providesTags: ["Order"],
         }),
-        getProducts: builder.query<GetProductsDto, void>({
+        getProducts: builder.query<GetProductResponse, void>({
             query: () => ({ url: `/api/shop/products` }),
             providesTags: ["Product"],
         }),
-        getCategories: builder.query<GetCategoriesDto, void>({
+        getCategories: builder.query<GetCategoriesResponse, void>({
             query: () => ({ url: `/api/shop/categories` }),
         }),
-        placeOrder: builder.mutation<CreateOrderResponseDto, CreateOrderDto>({
-            query: (createOrderDto) => ({
+        placeOrder: builder.mutation<PlaceOrderResponse, PlaceOrderRequest>({
+            query: (placeOrderRequest) => ({
                 url: `/api/shop/order/create`,
                 method: "POST",
-                body: createOrderDto,
+                body: placeOrderRequest,
             }),
             invalidatesTags: ["Order", "Product"],
         }),
@@ -78,7 +76,7 @@ export const {
     useRegisterMutation,
     useVerifyMutation,
     useLoginMutation,
-    useLazyGetCurrentUserQuery,
+    useLazyGetUserInfoQuery,
     useGetOrdersQuery,
     useGetProductsQuery,
     useGetCategoriesQuery,

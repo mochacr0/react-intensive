@@ -1,13 +1,12 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Avatar, Box, Container, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
 import HttpsIcon from "@mui/icons-material/Https";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { LoginDto } from "../../models/loginModels";
+import { LoginRequest } from "../../models/authModels";
 import { useLoginMutation } from "../../redux/features/apiSlice";
 
 type LoginFormValues = {
@@ -36,11 +35,11 @@ const LoginForm = () => {
 
     async function handleSubmit(formData: LoginFormValues) {
         try {
-            const loginDto: LoginDto = {
+            const loginRequest: LoginRequest = {
                 userName: formData.username,
                 password: formData.password,
             };
-            const response = await login(loginDto).unwrap();
+            const response = await login(loginRequest).unwrap();
             if (response.status !== 200) {
                 toast.error("Failed to login: " + response.message);
                 return;

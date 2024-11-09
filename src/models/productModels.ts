@@ -1,18 +1,18 @@
-export type GetProductsDto = {
-    status: number;
-    message: string;
-    data: ProductPaginationDto;
-};
+import { BaseRespone } from "./commonModels";
 
-type ProductPaginationDto = {
+export interface GetProductResponse extends BaseRespone {
+    data: PaginatedProducts;
+}
+
+interface PaginatedProducts {
     totalProducts: number;
     totalPage: number;
     pageSize: number;
     currentPage: number;
-    products: ProductDto[];
-};
+    products: Product[];
+}
 
-export type ProductDto = {
+export interface Product {
     id: string;
     name: string;
     img: string;
@@ -21,12 +21,12 @@ export type ProductDto = {
     regular_price: number;
     sale_price: number;
     rating: number;
-    category: ProductCategoryDto;
-};
+    category: ProductCategory;
+}
 
-type ProductCategoryDto = {
+interface ProductCategory {
     categoryId: string;
     name: string;
     img: string;
-    codelist: string;
-};
+    code: string;
+}

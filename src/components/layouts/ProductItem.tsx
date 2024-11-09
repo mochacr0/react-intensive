@@ -2,11 +2,11 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Box, Button, Rating, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { ProductDto } from "../../models/productModels";
+import { Product } from "../../models/productModels";
 
 type ProductItemProps = {
-    product: ProductDto;
-    onPlacedOrderButtonClicked: (product: ProductDto) => void;
+    product: Product;
+    onPlacedOrderButtonClicked: (product: Product) => void;
 };
 
 const productUrlSample =
@@ -16,7 +16,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onPlacedOrderButtonC
     return (
         <Box className="group relative flex flex-col rounded-lg bg-white transition-transform duration-300 hover:scale-[1.02]">
             {/* Image container */}
-            <Link to={`/products/${product.id}`} className="relative aspect-square overflow-hidden">
+            <Box className="relative aspect-square overflow-hidden">
                 <img src={productUrlSample} alt={product.name} className="h-full w-full object-cover object-center" />
 
                 {/* Stock badge */}
@@ -31,19 +31,19 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onPlacedOrderButtonC
                         </span>
                     )}
                 </Box>
-            </Link>
+            </Box>
 
             {/* Product info */}
             <Box className="flex flex-1 flex-col gap-2 p-4">
                 <Link to={`/products/${product.id}`} className="flex-1 no-underline">
-                    <Typography variant="h3" className="mb-2 line-clamp-1 text-sm font-medium text-gray-900">
+                    <Typography variant="h3" className="mb-2 line-clamp-1 text-base font-medium text-gray-900">
                         {product.name}
                     </Typography>
                 </Link>
 
                 {/* Rating */}
-                <Box className="mb-2 flex items-center">
-                    <Rating defaultValue={0} precision={0.1} value={product.rating} readOnly />
+                <Box className="mb-2 flex items-center justify-center md:justify-start">
+                    <Rating defaultValue={0} precision={0.1} value={product.rating} readOnly size="small" />
                 </Box>
 
                 {/* Price and Add to Cart */}

@@ -1,8 +1,8 @@
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Box, Button, CardHeader, Chip } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { useGetOrdersQuery } from "../../redux/features/apiSlice";
 import { capitalize, getOrderStatusColor } from "../../common/mock/utils";
+import { useGetOrdersQuery } from "../../redux/features/apiSlice";
 
 const columns: GridColDef[] = [
     { field: "orderNumber", headerName: "Order Number", width: 150, align: "center", headerAlign: "center" },
@@ -10,7 +10,7 @@ const columns: GridColDef[] = [
         field: "totalPayment",
         headerName: "Total Payment",
         width: 150,
-        valueGetter: (value, row) => `${row.payment.amount}`,
+        valueGetter: (_, row) => `${row.payment.amount}`,
         align: "center",
         headerAlign: "center",
     },
@@ -19,7 +19,7 @@ const columns: GridColDef[] = [
         headerName: "Ordered At",
         width: 200,
         type: "dateTime",
-        valueGetter: (value, row) => new Date(row.created),
+        valueGetter: (_, row) => new Date(row.created),
         align: "center",
         headerAlign: "center",
     },
@@ -37,7 +37,7 @@ const columns: GridColDef[] = [
         field: "rated",
         headerName: "Rated",
         width: 110,
-        valueGetter: (value, row) => `${row.status === "completed" ? row.rating : ""}`,
+        valueGetter: (_, row) => `${row.status === "completed" ? row.rating : ""}`,
         align: "center",
         headerAlign: "center",
     },

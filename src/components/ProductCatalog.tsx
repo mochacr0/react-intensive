@@ -1,17 +1,17 @@
 import { Box } from "@mui/material";
-import ProductItem from "./layouts/ProductItem";
 import { memo, useCallback, useState } from "react";
-import { ProductDto } from "../models/productModels";
+import { Product } from "../models/productModels";
 import { useGetProductsQuery } from "../redux/features/apiSlice";
 import Loading from "./layouts/Loading";
 import PlaceOrderDialog from "./layouts/PlaceOrderDiablog";
+import ProductItem from "./layouts/ProductItem";
 
 // Memoize the ProductItem component to prevent unnecessary re-renders
 const MemoizedProductItem = memo(ProductItem);
 
 const ProductCatalog = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [selectedProduct, setSelectedProduct] = useState<ProductDto | null>(null);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const { data, isLoading } = useGetProductsQuery();
 
     const handleOpenModal = useCallback(() => {
@@ -22,7 +22,7 @@ const ProductCatalog = () => {
         setIsModalOpen(false);
     }, []);
 
-    const handlePlaceOrderButtonClicked = useCallback((product: ProductDto) => {
+    const handlePlaceOrderButtonClicked = useCallback((product: Product) => {
         setSelectedProduct(product);
         setIsModalOpen(true);
     }, []);

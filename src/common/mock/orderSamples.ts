@@ -1,3 +1,3 @@
-import { OrderDto } from "../../models/orderModels";
+import { Order } from "../../models/orderModels";
 
-export const orderSamples: OrderDto[] = [];
+export const orderSamples: Order[] = [];

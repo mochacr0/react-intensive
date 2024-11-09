@@ -1,21 +1,21 @@
-import { memo, useCallback, useMemo } from "react";
-import TextField from "@mui/material/TextField";
+import { LoadingButton } from "@mui/lab";
+import { Autocomplete } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Autocomplete } from "@mui/material";
-import { ProductDto } from "../../models/productModels";
-import { toast } from "react-toastify";
+import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
+import { memo, useMemo } from "react";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { PlaceOrderRequest } from "../../models/orderModels";
+import { Product } from "../../models/productModels";
 import { usePlaceOrderMutation } from "../../redux/features/apiSlice";
-import { CreateOrderDto } from "../../models/orderModels";
-import { LoadingButton } from "@mui/lab";
 
 type ProductItemProps = {
-    product: ProductDto;
+    product: Product;
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
@@ -42,12 +42,12 @@ const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps
     const [placeOrder, placeOrderMutationResult] = usePlaceOrderMutation();
 
     async function handleSubmit(formData: PlaceOrderFormValues) {
-        const createOrderDto: CreateOrderDto = {
+        const placeOrderRequest: PlaceOrderRequest = {
             productId: product.id,
             quantity: formData.quantity,
         };
         try {
-            const createOrderResponse = await placeOrder(createOrderDto).unwrap();
+            const createOrderResponse = await placeOrder(placeOrderRequest).unwrap();
             if (createOrderResponse.status >= 400) {
                 toast.error(`Failed to place order: ${createOrderResponse.message}`);
                 return;

@@ -1,7 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCurrentUserContext } from "../providers/CurrentUserProvider";
-import { toast } from "react-toastify";
 
 const RequiresAuth: React.FC<{ children: ReactNode }> = ({ children }) => {
     const { currentUser } = useCurrentUserContext();

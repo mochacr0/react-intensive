@@ -1,4 +1,4 @@
-export type RegisterDto = {
+export type RegisterRequest = {
     email: string;
     userName: string;
     firstName: string;
@@ -6,7 +6,7 @@ export type RegisterDto = {
     password: string;
 };
 
-export type RegisterResponseDto = {
+export type RegisterResponse = {
     status: number;
     message: string;
 };

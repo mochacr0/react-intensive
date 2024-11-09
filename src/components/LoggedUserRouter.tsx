@@ -1,6 +1,6 @@
+import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUserContext } from "../providers/CurrentUserProvider";
-import { ReactNode, useEffect } from "react";
 
 const LoggedUserRouter: React.FC<{ children: ReactNode }> = ({ children }) => {
     const navigate = useNavigate();

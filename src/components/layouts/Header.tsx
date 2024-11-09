@@ -22,7 +22,7 @@ type NavigationItems = {
     path: string;
 };
 
-const navigationItems: NavigationItems[] = [{ name: "Products", path: "/products" }];
+const navigationItems: NavigationItems[] = [{ name: "Error Page", path: "/error" }];
 const accountItems: NavigationItems[] = [{ name: "Account", path: "/account" }];
 
 const Header = () => {
@@ -105,7 +105,7 @@ const Header = () => {
                                 noWrap
                                 className="mr-2 flex-grow font-bold tracking-[.3rem] text-inherit no-underline md:hidden"
                             >
-                                LOGO Mobile
+                                LOGO
                             </Typography>
                         </Link>
                     </Box>
@@ -118,7 +118,7 @@ const Header = () => {
                                 noWrap
                                 className="mr-2 hidden font-bold tracking-[.3rem] text-inherit no-underline md:flex"
                             >
-                                LOGO PC
+                                LOGO
                             </Typography>
                         </Link>
                     </Box>

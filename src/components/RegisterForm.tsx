@@ -1,13 +1,12 @@
+import HttpsIcon from "@mui/icons-material/Https";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Avatar, Box, Container, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
-import HttpsIcon from "@mui/icons-material/Https";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { RegisterDto } from "../models/registerModel";
+import { RegisterRequest } from "../models/registerModel";
 import { useRegisterMutation } from "../redux/features/apiSlice";
 
 type RegisterFormValues = {
@@ -56,14 +55,14 @@ const RegisterForm = () => {
 
     async function handleSubmit(formData: RegisterFormValues) {
         try {
-            const registerDto: RegisterDto = {
+            const registerRequest: RegisterRequest = {
                 email: formData.email,
                 userName: formData.username,
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 password: formData.password,
             };
-            const response = await register(registerDto).unwrap();
+            const response = await register(registerRequest).unwrap();
             if (response.status !== 200) {
                 toast.error("Failed to register: " + response.message);
             } else {
