@@ -1,13 +1,12 @@
-import { AuthTokenPair } from "./../../models/tokenPairModels";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RegisterDto, RegisterResponseDto } from "../../models/registerModel";
-import { VerifyDto, VerifyResponseDto } from "../../models/verifyModel";
-import { LoginDto, LoginResponseDto } from "../../models/loginModels";
-import { UserInfoDto } from "../../models/userInfoModel";
-import { OrderDto } from "../../models/orderModels";
-import { orderSamples } from "../../common/mock/orderSamples";
-import { GetProductsDto } from "../../models/productModels";
 import { GetCategoriesDto } from "../../models/categoryModels";
+import { LoginDto, LoginResponseDto } from "../../models/loginModels";
+import { CreateOrderDto, CreateOrderResponseDto, GetOrdersDto } from "../../models/orderModels";
+import { GetProductsDto } from "../../models/productModels";
+import { RegisterDto, RegisterResponseDto } from "../../models/registerModel";
+import { UserInfoDto } from "../../models/userInfoModel";
+import { VerifyDto, VerifyResponseDto } from "../../models/verifyModel";
+import { AuthTokenPair } from "./../../models/tokenPairModels";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -52,26 +51,21 @@ export const apiSlice = createApi({
         getCurrentUser: builder.query<UserInfoDto, void>({
             query: () => ({ url: `/api/user` }),
         }),
-        getOrders: builder.query<OrderDto[], void>({
-            queryFn: async () => {
-                async function getOrderSamples(): Promise<OrderDto[]> {
-                    return new Promise((resolve) => {
-                        setTimeout(() => {
-                            resolve(orderSamples);
-                        }, 5000);
-                    });
-                }
-                console.log("Heyyyy");
-                const orders = await getOrderSamples();
-
-                return { data: orders };
-            },
+        getOrders: builder.query<GetOrdersDto, void>({
+            query: () => ({ url: `/api/shop/orders` }),
         }),
         getProducts: builder.query<GetProductsDto, void>({
             query: () => ({ url: `/api/shop/products` }),
         }),
         getCategories: builder.query<GetCategoriesDto, void>({
             query: () => ({ url: `/api/shop/categories` }),
+        }),
+        placeOrder: builder.mutation<CreateOrderResponseDto, CreateOrderDto>({
+            query: (createOrderDto) => ({
+                url: `/api/shop/order/create`,
+                method: "POST",
+                body: createOrderDto,
+            }),
         }),
     }),
 });
@@ -84,4 +78,5 @@ export const {
     useGetOrdersQuery,
     useGetProductsQuery,
     useGetCategoriesQuery,
+    usePlaceOrderMutation,
 } = apiSlice;

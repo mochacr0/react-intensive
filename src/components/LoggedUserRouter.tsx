@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import VerifyForm from "../../components/VerifyForm";
-import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
-import { useEffect } from "react";
+import { useCurrentUserContext } from "../providers/CurrentUserProvider";
+import { ReactNode, useEffect } from "react";
 
-const VerifyPage = () => {
+const LoggedUserRouter: React.FC<{ children: ReactNode }> = ({ children }) => {
     const navigate = useNavigate();
     const { currentUser } = useCurrentUserContext();
 
@@ -13,7 +12,7 @@ const VerifyPage = () => {
         }
     }, [navigate, currentUser]);
 
-    return <VerifyForm />;
+    return children;
 };
 
-export default VerifyPage;
+export default LoggedUserRouter;

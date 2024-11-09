@@ -63,7 +63,7 @@ const responsive = {
     },
     tablet: {
         breakpoint: { max: 1024, min: 464 },
-        items: 3,
+        items: 2,
     },
     mobile: {
         breakpoint: { max: 464, min: 0 },
@@ -80,7 +80,7 @@ const Categories = () => {
                 <Loading />
             ) : (
                 <Carousel responsive={responsive} itemClass="px-3" draggable={false} infinite={true} rewind={true}>
-                    {(data?.data.categories || []).map((category) => {
+                    {(data?.data?.categories || []).map((category) => {
                         return <CategoryItem key={category.categoryId} category={category} />;
                     })}
                 </Carousel>

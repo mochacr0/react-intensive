@@ -79,7 +79,7 @@ const VerifyForm = () => {
     async function fetchAndSetCurrentUserInfo() {
         try {
             const currentUserInfoDto = await getCurrentUserTrigger().unwrap();
-            if (currentUserInfoDto.status !== 200) {
+            if (currentUserInfoDto.status >= 400) {
                 console.log(`Failed to get current user info: ${currentUserInfoDto.message}`);
                 return;
             }

@@ -10,6 +10,7 @@ import MyOrders from "../pages/account/MyOrders";
 import MyProfile from "../pages/account/MyProfile";
 import RequiresAuth from "./RequiresAuth";
 import ProductCatalogPage from "../pages/productCatalog/ProductCatalogPage";
+import LoggedUserRouter from "../components/LoggedUserRouter";
 
 const router = createBrowserRouter([
     {
@@ -18,19 +19,40 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <HomePage />,
-                index: true,
-            },
-            { path: "/register", element: <RegisterPage /> },
-            { path: "/verify", element: <VerifyPage /> },
-            { path: "/login", element: <LoginPage /> },
-            {
-                path: "/account",
                 element: (
                     <RequiresAuth>
-                        <MyAccountPage />
+                        <HomePage />
                     </RequiresAuth>
                 ),
+                index: true,
+            },
+            {
+                path: "/register",
+                element: (
+                    <LoggedUserRouter>
+                        <RegisterPage />
+                    </LoggedUserRouter>
+                ),
+            },
+            {
+                path: "/verify",
+                element: (
+                    <LoggedUserRouter>
+                        <VerifyPage />
+                    </LoggedUserRouter>
+                ),
+            },
+            {
+                path: "/login",
+                element: (
+                    <LoggedUserRouter>
+                        <LoginPage />
+                    </LoggedUserRouter>
+                ),
+            },
+            {
+                path: "/account",
+                element: <MyAccountPage />,
                 children: [
                     { path: "", element: <MyProfile />, index: true },
                     { path: "profile", element: <MyProfile /> },

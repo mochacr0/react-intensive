@@ -1,13 +1,13 @@
 import Sliders from "../../components/Banner";
 import Categories from "../../components/Categories";
-import FeaturedProducts from "../../components/FeaturedProducts";
+import ProductCatalog from "../../components/ProductCatalog";
 
 const HomePage = () => {
     return (
         <>
             <Sliders />
             <Categories />
-            <FeaturedProducts />
+            <ProductCatalog />
         </>
     );
 };

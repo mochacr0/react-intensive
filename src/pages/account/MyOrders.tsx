@@ -1,30 +1,56 @@
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { Box, Button, CardHeader } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box, Button, CardHeader, Chip } from "@mui/material";
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { useGetOrdersQuery } from "../../redux/features/apiSlice";
-import Loading from "../../components/layouts/Loading";
+import { capitalize, getOrderStatusColor } from "../../common/mock/utils";
 
 const columns: GridColDef[] = [
-    { field: "orderNumber", headerName: "Order Number", width: 200 },
+    { field: "orderNumber", headerName: "Order Number", width: 150, align: "center", headerAlign: "center" },
     {
         field: "totalPayment",
         headerName: "Total Payment",
-        width: 200,
+        width: 150,
         valueGetter: (value, row) => `${row.payment.amount}`,
+        align: "center",
+        headerAlign: "center",
     },
-    { field: "status", headerName: "Status", width: 200 },
+    {
+        field: "created",
+        headerName: "Ordered At",
+        width: 200,
+        type: "dateTime",
+        valueGetter: (value, row) => new Date(row.created),
+        align: "center",
+        headerAlign: "center",
+    },
+    {
+        field: "status",
+        headerName: "Status",
+        width: 120,
+        align: "center",
+        headerAlign: "center",
+        renderCell: (params: GridRenderCellParams<any, string>) => {
+            return <Chip label={capitalize(params.value)} color={getOrderStatusColor(params.value)} size="small" />;
+        },
+    },
     {
         field: "rated",
         headerName: "Rated",
-        width: 180,
+        width: 110,
         valueGetter: (value, row) => `${row.status === "completed" ? row.rating : ""}`,
+        align: "center",
+        headerAlign: "center",
     },
 ];
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 const MyOrders: React.FC = () => {
-    const { data, isLoading, refetch } = useGetOrdersQuery();
+    const { data, isLoading, isFetching, refetch } = useGetOrdersQuery();
+
+    function isLoadingOrders() {
+        return isLoading || isFetching;
+    }
 
     function handleReload() {
         refetch();
@@ -40,33 +66,30 @@ const MyOrders: React.FC = () => {
                         variant="outlined"
                         endIcon={<RestartAltIcon />}
                         onClick={handleReload}
-                        disabled={isLoading}
+                        disabled={isLoadingOrders()}
                     >
                         Reload
                     </Button>
                 }
             />
-            {isLoading ? (
-                <Loading />
-            ) : (
-                <Box className="mx-4 flex flex-col">
-                    <DataGrid
-                        rows={data || []}
-                        columns={columns}
-                        initialState={{ pagination: { paginationModel } }}
-                        pageSizeOptions={[5, 10]}
-                        sx={{ border: 0 }}
-                        getRowId={(row) => row.orderNumber}
-                        loading={isLoading}
-                        slotProps={{
-                            loadingOverlay: {
-                                variant: "skeleton",
-                                noRowsVariant: "skeleton",
-                            },
-                        }}
-                    />
-                </Box>
-            )}
+
+            <Box className="mx-4 flex flex-col">
+                <DataGrid
+                    rows={data?.data?.orders || []}
+                    columns={columns}
+                    initialState={{ pagination: { paginationModel } }}
+                    pageSizeOptions={[5, 10]}
+                    sx={{ border: 0 }}
+                    getRowId={(row) => row.orderNumber}
+                    loading={isLoadingOrders()}
+                    slotProps={{
+                        loadingOverlay: {
+                            variant: "skeleton",
+                            noRowsVariant: "skeleton",
+                        },
+                    }}
+                />
+            </Box>
         </>
     );
 };

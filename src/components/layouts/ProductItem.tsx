@@ -1,9 +1,7 @@
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { Box, Button, Chip, Rating, Typography } from "@mui/material";
+import { Box, Button, Rating, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { ProductDto } from "../../models/productModels";
 
 type ProductItemProps = {
@@ -36,27 +34,29 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onPlacedOrderButtonC
             </Link>
 
             {/* Product info */}
-            <Box className="flex flex-1 flex-col p-4">
+            <Box className="flex flex-1 flex-col gap-2 p-4">
                 <Link to={`/products/${product.id}`} className="flex-1 no-underline">
-                    <Typography variant="h3" className="mb-2 line-clamp-2 text-sm font-medium text-gray-900">
+                    <Typography variant="h3" className="mb-2 line-clamp-1 text-sm font-medium text-gray-900">
                         {product.name}
                     </Typography>
                 </Link>
 
                 {/* Rating */}
-                <Box className="mb-2 flex items-center gap-1">
+                <Box className="mb-2 flex items-center">
                     <Rating defaultValue={0} precision={0.1} value={product.rating} readOnly />
                 </Box>
 
                 {/* Price and Add to Cart */}
-                <Box className="flex items-center justify-between justify-self-end">
-                    <p className="text-lg font-medium text-gray-900">${product.sale_price.toFixed(2)}</p>
+                <Box className="flex flex-col items-center justify-between gap-2 justify-self-end md:flex-row md:gap-0">
+                    <Typography variant="body2" className="text-lg font-medium text-gray-900">
+                        ${product.sale_price.toFixed(2)}
+                    </Typography>
                     <Button
                         onClick={() => {
                             onPlacedOrderButtonClicked(product);
                         }}
                         disabled={product.in_stock === 0}
-                        className="flex items-center gap-1 rounded-full bg-blue-600 text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                        className="flex w-full items-center gap-1 rounded-full bg-blue-600 text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 md:w-auto"
                         aria-label="Add to cart"
                     >
                         <AddShoppingCartIcon className="h-4 w-4" />

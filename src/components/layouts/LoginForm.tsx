@@ -49,7 +49,7 @@ const LoginForm = () => {
             formik.resetForm();
             navigate("/verify");
         } catch (error) {
-            toast.error("Failed to login");
+            toast.info("Failed to login");
             console.log("Failed to login: ", loginMutation.error);
         }
     }

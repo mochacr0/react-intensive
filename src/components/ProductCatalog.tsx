@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import ProductItem from "./layouts/FeaturedProductItem";
+import ProductItem from "./layouts/ProductItem";
 import { memo, useCallback, useState } from "react";
 import { ProductDto } from "../models/productModels";
 import { useGetProductsQuery } from "../redux/features/apiSlice";
@@ -9,7 +9,7 @@ import PlaceOrderDialog from "./layouts/PlaceOrderDiablog";
 // Memoize the ProductItem component to prevent unnecessary re-renders
 const MemoizedProductItem = memo(ProductItem);
 
-const FeaturedProducts = () => {
+const ProductCatalog = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [selectedProduct, setSelectedProduct] = useState<ProductDto | null>(null);
     const { data, isLoading } = useGetProductsQuery();
@@ -34,7 +34,7 @@ const FeaturedProducts = () => {
                 <Loading />
             ) : (
                 <Box className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                    {(data?.data.products || []).map((product) => (
+                    {(data?.data?.products || []).map((product) => (
                         <MemoizedProductItem
                             key={product.id}
                             product={product}
@@ -55,4 +55,4 @@ const FeaturedProducts = () => {
     );
 };
 
-export default memo(FeaturedProducts);
+export default memo(ProductCatalog);

@@ -1,5 +1,4 @@
 import { memo, useCallback, useMemo } from "react";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,6 +8,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Autocomplete } from "@mui/material";
 import { ProductDto } from "../../models/productModels";
 import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { usePlaceOrderMutation } from "../../redux/features/apiSlice";
+import { CreateOrderDto } from "../../models/orderModels";
+import { LoadingButton } from "@mui/lab";
 
 type ProductItemProps = {
     product: ProductDto;
@@ -17,19 +21,54 @@ type ProductItemProps = {
     onClose: () => void;
 };
 
-const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps) => {
-    const handlePlaceOrder = useCallback(() => {
-        toast.info(`Created order for ${product.name}`);
-    }, [product.name]);
+type PlaceOrderFormValues = {
+    quantity: number;
+};
 
-    const handleSubmit = useCallback(
-        (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            handlePlaceOrder();
+const initialValues: PlaceOrderFormValues = {
+    quantity: 1,
+};
+
+const validationSchema = Yup.object({
+    quantity: Yup.number().required("Quantity is required").min(1, "Quantity must be at least 1"),
+});
+
+const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps) => {
+    const formik = useFormik<PlaceOrderFormValues>({
+        initialValues,
+        validationSchema,
+        onSubmit: handleSubmit,
+    });
+    const [placeOrder, placeOrderMutationResult] = usePlaceOrderMutation();
+
+    async function handleSubmit(formData: PlaceOrderFormValues) {
+        const createOrderDto: CreateOrderDto = {
+            productId: product.id,
+            quantity: formData.quantity,
+        };
+        try {
+            const createOrderResponse = await placeOrder(createOrderDto).unwrap();
+            if (createOrderResponse.status >= 400) {
+                toast.error(`Failed to place order: ${createOrderResponse.message}`);
+                return;
+            }
+            toast.success("Order placed successfully");
+            formik.resetForm();
             onClose();
-        },
-        [handlePlaceOrder, onClose],
-    );
+        } catch (error) {
+            toast.error("Failed to place order");
+            console.log(`Failed to place order: ${placeOrderMutationResult.error}`);
+        }
+    }
+
+    function handleCancel() {
+        formik.resetForm();
+        onClose();
+    }
+
+    function handleCloseDialog() {
+        handleCancel();
+    }
 
     // Memoize the quantity options array
     const quantityOptions = useMemo(
@@ -40,10 +79,10 @@ const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps
     return (
         <Dialog
             open={isOpen}
-            onClose={onClose}
+            onClose={handleCloseDialog}
             PaperProps={{
                 component: "form",
-                onSubmit: handleSubmit,
+                onSubmit: formik.handleSubmit,
             }}
         >
             <DialogTitle>{`Place an Order: ${product.name}`}</DialogTitle>
@@ -53,16 +92,41 @@ const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps
                     options={quantityOptions}
                     sx={{ marginTop: 3 }}
                     getOptionLabel={(option) => option.toString()}
-                    renderInput={(params) => <TextField {...params} type="number" label="Quantity" />}
+                    inputValue={formik?.values?.quantity?.toString() || ""}
+                    renderInput={(params) => (
+                        <TextField
+                            name="quantity"
+                            {...params}
+                            type="number"
+                            label="Quantity"
+                            // value={formik.values.quantity}
+                            error={formik.touched.quantity && Boolean(formik.errors.quantity)}
+                            helperText={formik.touched.quantity && formik.errors.quantity}
+                            // onChange={formik.handleChange}
+                        />
+                    )}
+                    onChange={(_, value) => {
+                        formik.setFieldValue("quantity", value);
+                    }}
                 />
             </DialogContent>
             <DialogActions sx={{ display: "flex", justifyContent: "space-between", margin: 2 }}>
-                <Button onClick={onClose} color="error" variant="contained">
+                <LoadingButton
+                    onClick={handleCancel}
+                    color="error"
+                    variant="contained"
+                    disabled={placeOrderMutationResult.isLoading}
+                >
                     Cancel
-                </Button>
-                <Button type="submit" color="primary" variant="contained">
+                </LoadingButton>
+                <LoadingButton
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    loading={placeOrderMutationResult.isLoading}
+                >
                     Confirm
-                </Button>
+                </LoadingButton>
             </DialogActions>
         </Dialog>
     );
