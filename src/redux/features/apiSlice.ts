@@ -26,6 +26,7 @@ export const apiSlice = createApi({
             return headers;
         },
     }),
+    tagTypes: ["User", "Order", "Product", "Category"],
     endpoints: (builder) => ({
         register: builder.mutation<RegisterResponseDto, RegisterDto>({
             query: (registerDto) => ({
@@ -53,9 +54,11 @@ export const apiSlice = createApi({
         }),
         getOrders: builder.query<GetOrdersDto, void>({
             query: () => ({ url: `/api/shop/orders` }),
+            providesTags: ["Order"],
         }),
         getProducts: builder.query<GetProductsDto, void>({
             query: () => ({ url: `/api/shop/products` }),
+            providesTags: ["Product"],
         }),
         getCategories: builder.query<GetCategoriesDto, void>({
             query: () => ({ url: `/api/shop/categories` }),
@@ -66,6 +69,7 @@ export const apiSlice = createApi({
                 method: "POST",
                 body: createOrderDto,
             }),
+            invalidatesTags: ["Order", "Product"],
         }),
     }),
 });
