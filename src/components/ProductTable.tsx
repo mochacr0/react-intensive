@@ -1,4 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, Box, Card, IconButton, Rating, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { useState } from "react";
@@ -101,8 +102,11 @@ const ProductTable: React.FC = () => {
             renderCell: () => {
                 return (
                     <Box>
+                        <IconButton onClick={handleEditButtonClicked}>
+                            <EditIcon color="primary" />
+                        </IconButton>
                         <IconButton onClick={handleDeleteButtonClicked}>
-                            <DeleteIcon color="inherit" />
+                            <DeleteIcon color="error" />
                         </IconButton>
                     </Box>
                 );
@@ -110,8 +114,12 @@ const ProductTable: React.FC = () => {
         },
     ];
 
-    function handleDeleteButtonClicked(): void {
+    function handleDeleteButtonClicked() {
         setIsConfirmDialogOpen(true);
+    }
+
+    function handleEditButtonClicked() {
+        toast.warn("This feature is not implemented yet");
     }
 
     function handleCloseConfirmDialog() {
