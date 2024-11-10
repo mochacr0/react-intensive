@@ -3,7 +3,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { CollapsedSideBarItem as CollapsedSideBarItemProps } from "../../models/sideBarModels";
 
 const CollapsedAdminSidebarItem: React.FC<CollapsedSideBarItemProps> = ({ name, icon, subPaths }) => {
@@ -51,30 +51,24 @@ const CollapsedAdminSidebarItem: React.FC<CollapsedSideBarItemProps> = ({ name, 
             <Collapse in={open} timeout="auto">
                 <List>
                     {subPaths.map(({ name, url }, index) => (
-                        // <NavLink
-                        //     to={url}
-                        //     style={{ textDecoration: "none" }}
-                        //     key={index}
-                        //     end
-                        //     //   activeclassname="active"
-                        // >
-                        <ListItemButton
-                            className="linkBtn sub-link"
-                            key={index}
-                            sx={{
-                                "&:hover": { backgroundColor: "#172032" },
-                                paddingY: "8px",
-                                paddingLeft: "70px",
-                            }}
-                        >
-                            <CustomListItemText
-                                primary={name}
+                        <NavLink to={url} style={{ textDecoration: "none" }} key={index} end>
+                            <ListItemButton
+                                className="linkBtn sub-link"
+                                key={index}
                                 sx={{
-                                    color: "#949ca9",
+                                    "&:hover": { backgroundColor: "#172032" },
+                                    paddingY: "8px",
+                                    paddingLeft: "70px",
                                 }}
-                            />
-                        </ListItemButton>
-                        // </NavLink>
+                            >
+                                <CustomListItemText
+                                    primary={name}
+                                    sx={{
+                                        color: "#949ca9",
+                                    }}
+                                />
+                            </ListItemButton>
+                        </NavLink>
                     ))}
                 </List>
             </Collapse>

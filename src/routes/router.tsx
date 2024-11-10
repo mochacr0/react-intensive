@@ -11,7 +11,8 @@ import RegisterPage from "../pages/register/RegisterPage";
 import VerifyPage from "../pages/verify/VerifyPage";
 import RequiresAuth from "./RequiresAuth";
 import AdminDefaultLayout from "../components/layouts/AdminDefaultLayout";
-import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
+import AdminDashboard from "../pages/admin/dashboard/AdminDashboard";
+import ProductManagementPage from "../pages/admin/productManagement/ProductManagementPage";
 
 const router = createBrowserRouter([
     {
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <AdminDashboard />,
+            },
+            {
+                path: "products",
+                element: <ProductManagementPage />,
             },
         ],
     },

@@ -9,7 +9,8 @@ const sideBarWidth = 250;
 
 function AdminDefaultLayout() {
     return (
-        <RequiresAuth allowedRoles={["admin"]}>
+        // <RequiresAuth allowedRoles={["admin"]}>
+        <RequiresAuth>
             <AdminHeader sideBarWidth={sideBarWidth} />
             <AdminSidebar sideBarWidth={sideBarWidth} />
             <Box
