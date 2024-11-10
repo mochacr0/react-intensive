@@ -4,12 +4,11 @@ import { LoadingButton } from "@mui/lab";
 import { Autocomplete, Box, CircularProgress, InputAdornment, Paper, TextField } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useAddProductMutation, useGetCategoriesQuery } from "../redux/features/apiSlice";
-import { AddProductRequest } from "../models/productModels";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { AddProductRequest } from "../models/productModels";
+import { useAddProductMutation, useGetCategoriesQuery } from "../redux/features/apiSlice";
 
 type AddProductFormValues = {
     productId: string;

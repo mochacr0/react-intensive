@@ -44,3 +44,5 @@ export interface AddProductRequest {
 }
 
 export interface AddProductResponse extends BaseRespone {}
+
+export interface DeleteProductResponse extends BaseRespone {}

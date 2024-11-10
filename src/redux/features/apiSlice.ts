@@ -2,7 +2,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AuthTokenPair, LoginRequest, LoginResponse, VerifyRequest, VerifyResponse } from "../../models/authModels";
 import { GetCategoriesResponse } from "../../models/categoryModels";
 import { GetOrdersRequest, PlaceOrderRequest, PlaceOrderResponse } from "../../models/orderModels";
-import { AddProductRequest, AddProductResponse, GetProductResponse } from "../../models/productModels";
+import {
+    AddProductRequest,
+    AddProductResponse,
+    DeleteProductResponse,
+    GetProductResponse,
+} from "../../models/productModels";
 import { RegisterRequest, RegisterResponse } from "../../models/registerModel";
 import { GetUserInfoResponse } from "../../models/userInfoModel";
 
@@ -66,6 +71,13 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ["Product"],
         }),
+        deleteProductById: builder.mutation<DeleteProductResponse, string>({
+            query: (productId) => ({
+                url: `/api/shop/product/${productId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Product"],
+        }),
         getCategories: builder.query<GetCategoriesResponse, void>({
             query: () => ({ url: `/api/shop/categories` }),
         }),
@@ -88,6 +100,7 @@ export const {
     useGetCategoriesQuery,
     useGetProductsQuery,
     useAddProductMutation,
+    useDeleteProductByIdMutation,
     useGetOrdersQuery,
     usePlaceOrderMutation,
 } = apiSlice;
