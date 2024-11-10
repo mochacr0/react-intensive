@@ -11,7 +11,7 @@ type OrderTableProps = {
 };
 
 const OrderTable: React.FC<OrderTableProps> = ({ handleOpenConfirmDialog }) => {
-    const { data, isLoading, isFetching, refetch } = useGetOrdersQuery();
+    const { data, isLoading, isFetching } = useGetOrdersQuery();
 
     function isLoadingOrders() {
         return isLoading || isFetching;
@@ -38,7 +38,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ handleOpenConfirmDialog }) => {
         {
             field: "created",
             headerName: "Ordered At",
-            width: 200,
+            width: 250,
             type: "dateTime",
             valueGetter: (_, row) => new Date(row.created),
             align: "center",
@@ -86,7 +86,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ handleOpenConfirmDialog }) => {
     }
 
     return (
-        <Card className="mx-4">
+        <Card>
             <DataGrid
                 rows={data?.data?.orders || []}
                 columns={columns}

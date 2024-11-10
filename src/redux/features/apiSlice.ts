@@ -113,9 +113,11 @@ export const {
     useLazyGetUserInfoQuery,
     useGetCategoriesQuery,
     useGetProductsQuery,
+    useLazyGetProductsQuery,
     useAddProductMutation,
     useDeleteProductByIdMutation,
     useGetOrdersQuery,
+    useLazyGetOrdersQuery,
     usePlaceOrderMutation,
     useCompleteOrderMutation,
 } = apiSlice;

@@ -12,7 +12,7 @@ type ProductTableProps = {
 };
 
 const ProductTable: React.FC<ProductTableProps> = ({ openConfirmDeleteDialog }) => {
-    const { data, isLoading } = useGetProductsQuery();
+    const { data, isLoading, isFetching } = useGetProductsQuery();
 
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", align: "center", headerAlign: "center" },
@@ -57,15 +57,15 @@ const ProductTable: React.FC<ProductTableProps> = ({ openConfirmDeleteDialog }) 
                                     component="span"
                                     sx={{ textDecoration: "line-through", marginRight: 1 }}
                                 >
-                                    ${regular_price.toFixed(2)}
+                                    ${regular_price}
                                 </Typography>
                                 <Typography variant="body2" component="span" color="error">
-                                    ${sale_price.toFixed(2)}
+                                    ${sale_price}
                                 </Typography>
                             </>
                         ) : (
                             <Typography variant="body2" component="span">
-                                ${regular_price.toFixed(2)}
+                                ${regular_price}
                             </Typography>
                         )}
                     </Box>
@@ -121,15 +121,19 @@ const ProductTable: React.FC<ProductTableProps> = ({ openConfirmDeleteDialog }) 
         toast.warn("This feature is not implemented yet");
     }
 
+    function isLoadingProducts() {
+        return isLoading || isFetching;
+    }
+
     return (
-        <Card className="mx-4">
+        <Card>
             <DataGrid
                 rows={data?.data?.products || []}
                 columns={columns}
                 initialState={{ pagination: { paginationModel: DEFAULT_PAGINATION_MODEL } }}
                 pageSizeOptions={[5, 10]}
                 sx={{ border: 0 }}
-                loading={isLoading}
+                loading={isLoadingProducts()}
                 slotProps={{
                     loadingOverlay: {
                         variant: "skeleton",

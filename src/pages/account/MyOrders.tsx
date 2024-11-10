@@ -6,11 +6,11 @@ import { useGetOrdersQuery } from "../../redux/features/apiSlice";
 import { DEFAULT_PAGINATION_MODEL } from "../../common/constant";
 
 const columns: GridColDef[] = [
-    { field: "orderNumber", headerName: "Order Number", width: 150, align: "center", headerAlign: "center" },
+    { field: "orderNumber", headerName: "Order Number", width: 180, align: "center", headerAlign: "center" },
     {
         field: "totalPayment",
         headerName: "Total Payment",
-        width: 150,
+        width: 180,
         valueGetter: (_, row) => `${row.payment.amount}`,
         align: "center",
         headerAlign: "center",
@@ -27,20 +27,12 @@ const columns: GridColDef[] = [
     {
         field: "status",
         headerName: "Status",
-        width: 120,
+        width: 180,
         align: "center",
         headerAlign: "center",
         renderCell: (params: GridRenderCellParams<any, string>) => {
             return <Chip label={capitalize(params.value)} color={getOrderStatusColor(params.value)} size="small" />;
         },
-    },
-    {
-        field: "rated",
-        headerName: "Rated",
-        width: 110,
-        valueGetter: (_, row) => `${row.status === "completed" ? row.rating : ""}`,
-        align: "center",
-        headerAlign: "center",
     },
 ];
 

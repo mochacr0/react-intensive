@@ -31,7 +31,7 @@ const router = createBrowserRouter([
                 index: true,
             },
             {
-                path: "/register",
+                path: "register",
                 element: (
                     <LoggedUserRouter>
                         <RegisterPage />
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/verify",
+                path: "verify",
                 element: (
                     <LoggedUserRouter>
                         <VerifyPage />
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/login",
+                path: "login",
                 element: (
                     <LoggedUserRouter>
                         <LoginPage />
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/account",
+                path: "account",
                 element: <MyAccountPage />,
                 children: [
                     { path: "", element: <MyProfile />, index: true },

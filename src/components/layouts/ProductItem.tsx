@@ -47,7 +47,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onPlacedOrderButtonC
                 {/* Price and Add to Cart */}
                 <Box className="flex flex-col items-center justify-between gap-2 justify-self-end md:flex-row md:gap-0">
                     <Typography variant="body2" className="text-lg font-medium text-gray-900">
-                        ${product.sale_price.toFixed(2)}
+                        ${product.sale_price}
                     </Typography>
                     <Button
                         onClick={() => {

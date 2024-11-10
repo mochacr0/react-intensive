@@ -1,14 +1,16 @@
-import { Box, Divider, Typography } from "@mui/material";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import ConfirmDialog from "../../../components/ConfirmDialog";
 import OrderTable from "../../../components/OrderTable";
-import { useCompleteOrderMutation } from "../../../redux/features/apiSlice";
+import { useCompleteOrderMutation, useLazyGetOrdersQuery } from "../../../redux/features/apiSlice";
 
 const ManageOrdersPage: React.FC = () => {
     const [selectedOrderNumber, setSelectedOrderNumber] = useState<string | null>(null);
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState<boolean>(false);
     const [completeOrder, completeOrderMutationResult] = useCompleteOrderMutation();
+    const [getOrdersQueryTrigger, getOrderQueryResult] = useLazyGetOrdersQuery();
 
     function handleCloseConfirmDialog() {
         setIsConfirmDialogOpen(false);
@@ -17,6 +19,10 @@ const ManageOrdersPage: React.FC = () => {
     function handleOpenConfirmDialog(orderNumber: string) {
         setSelectedOrderNumber(orderNumber);
         setIsConfirmDialogOpen(true);
+    }
+
+    function handleReload() {
+        getOrdersQueryTrigger();
     }
 
     async function handleConfirmCompleteOrder() {
@@ -41,6 +47,7 @@ const ManageOrdersPage: React.FC = () => {
             console.log("Failed to complete order", completeOrderMutationResult.error);
         }
     }
+
     return (
         <Box className="mx-5 my-20">
             <Box>
@@ -48,6 +55,16 @@ const ManageOrdersPage: React.FC = () => {
                     <Typography variant="h5" className="font-semibold">
                         Orders
                     </Typography>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className="self-end"
+                        endIcon={<RestartAltIcon />}
+                        onClick={handleReload}
+                        disabled={getOrderQueryResult.isLoading || getOrderQueryResult.isFetching}
+                    >
+                        Reload
+                    </Button>
                 </Box>
             </Box>
             <Box>
