@@ -12,8 +12,9 @@ import VerifyPage from "../pages/verify/VerifyPage";
 import RequiresAuth from "./RequiresAuth";
 import AdminDefaultLayout from "../components/layouts/AdminDefaultLayout";
 import AdminDashboard from "../pages/admin/dashboard/AdminDashboard";
-import ProductManagementPage from "../pages/admin/productManagement/ProductManagementPage";
+import ManageProductsPage from "../pages/admin/productManagement/ManageProductsPage";
 import AddProductPage from "../pages/admin/productManagement/AddProductPage";
+import ManageOrdersPage from "../pages/admin/orderManagement/ManageOrdersPage";
 
 const router = createBrowserRouter([
     {
@@ -75,11 +76,15 @@ const router = createBrowserRouter([
             },
             {
                 path: "products",
-                element: <ProductManagementPage />,
+                element: <ManageProductsPage />,
             },
             {
                 path: "products/add",
                 element: <AddProductPage />,
+            },
+            {
+                path: "orders",
+                element: <ManageOrdersPage />,
             },
         ],
     },
