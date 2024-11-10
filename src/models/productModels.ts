@@ -30,3 +30,17 @@ interface ProductCategory {
     img: string;
     code: string;
 }
+
+export interface AddProductRequest {
+    id: string;
+    name: string;
+    img: string;
+    category: string;
+    in_stock: number;
+    sold: number;
+    regular_price: number;
+    sale_price: number;
+    rating: number;
+}
+
+export interface AddProductResponse extends BaseRespone {}

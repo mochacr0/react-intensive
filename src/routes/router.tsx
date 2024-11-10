@@ -13,6 +13,7 @@ import RequiresAuth from "./RequiresAuth";
 import AdminDefaultLayout from "../components/layouts/AdminDefaultLayout";
 import AdminDashboard from "../pages/admin/dashboard/AdminDashboard";
 import ProductManagementPage from "../pages/admin/productManagement/ProductManagementPage";
+import AddProductPage from "../pages/admin/productManagement/AddProductPage";
 
 const router = createBrowserRouter([
     {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
             {
                 path: "products",
                 element: <ProductManagementPage />,
+            },
+            {
+                path: "products/add",
+                element: <AddProductPage />,
             },
         ],
     },

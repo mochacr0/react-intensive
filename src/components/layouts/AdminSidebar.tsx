@@ -23,7 +23,7 @@ const paths: SideBarItem[] = [
             },
             {
                 name: "Add Product",
-                url: "admin/products/add",
+                url: "/admin/products/add",
             },
         ],
     },

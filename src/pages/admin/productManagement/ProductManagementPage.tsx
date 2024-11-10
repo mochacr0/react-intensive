@@ -12,7 +12,7 @@ const ProductManagementPage: React.FC = () => {
                     <Typography variant="h5" className="font-semibold">
                         Products
                     </Typography>
-                    <NavLink to="/products/add" className="no-underline">
+                    <NavLink to="/admin/products/add" className="no-underline">
                         <Button variant="contained" color="primary" className="flex items-center justify-between">
                             <AddIcon fontSize="small" />
                             <Typography component={"div"} variant="button" className="ml-2">

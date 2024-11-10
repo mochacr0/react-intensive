@@ -9,6 +9,7 @@ const columns: GridColDef[] = [
         field: "img",
         headerName: "Image",
         sortable: false,
+        filterable: false,
         align: "center",
         headerAlign: "center",
         renderCell: (params: GridRenderCellParams) => {
@@ -87,24 +88,22 @@ const ProductTable: React.FC = () => {
     const { data, isLoading } = useGetProductsQuery();
 
     return (
-        <>
-            <Box className="mx-4 flex flex-col">
-                <DataGrid
-                    rows={data?.data?.products || []}
-                    columns={columns}
-                    initialState={{ pagination: { paginationModel } }}
-                    pageSizeOptions={[5, 10]}
-                    sx={{ border: 0 }}
-                    loading={isLoading}
-                    slotProps={{
-                        loadingOverlay: {
-                            variant: "skeleton",
-                            noRowsVariant: "skeleton",
-                        },
-                    }}
-                />
-            </Box>
-        </>
+        <Box className="mx-4 flex flex-col">
+            <DataGrid
+                rows={data?.data?.products || []}
+                columns={columns}
+                initialState={{ pagination: { paginationModel } }}
+                pageSizeOptions={[5, 10]}
+                sx={{ border: 0 }}
+                loading={isLoading}
+                slotProps={{
+                    loadingOverlay: {
+                        variant: "skeleton",
+                        noRowsVariant: "skeleton",
+                    },
+                }}
+            />
+        </Box>
     );
 };
 

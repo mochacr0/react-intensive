@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AuthTokenPair, LoginRequest, LoginResponse, VerifyRequest, VerifyResponse } from "../../models/authModels";
 import { GetCategoriesResponse } from "../../models/categoryModels";
 import { GetOrdersRequest, PlaceOrderRequest, PlaceOrderResponse } from "../../models/orderModels";
-import { GetProductResponse } from "../../models/productModels";
+import { AddProductRequest, AddProductResponse, GetProductResponse } from "../../models/productModels";
 import { RegisterRequest, RegisterResponse } from "../../models/registerModel";
 import { GetUserInfoResponse } from "../../models/userInfoModel";
 
@@ -58,6 +58,14 @@ export const apiSlice = createApi({
             query: () => ({ url: `/api/shop/products` }),
             providesTags: ["Product"],
         }),
+        addProduct: builder.mutation<AddProductResponse, AddProductRequest>({
+            query: (addProductRequest) => ({
+                url: `/api/shop/product`,
+                method: "POST",
+                body: addProductRequest,
+            }),
+            invalidatesTags: ["Product"],
+        }),
         getCategories: builder.query<GetCategoriesResponse, void>({
             query: () => ({ url: `/api/shop/categories` }),
         }),
@@ -77,8 +85,9 @@ export const {
     useVerifyMutation,
     useLoginMutation,
     useLazyGetUserInfoQuery,
-    useGetOrdersQuery,
-    useGetProductsQuery,
     useGetCategoriesQuery,
+    useGetProductsQuery,
+    useAddProductMutation,
+    useGetOrdersQuery,
     usePlaceOrderMutation,
 } = apiSlice;

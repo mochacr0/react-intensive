@@ -99,10 +99,8 @@ const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps
                             {...params}
                             type="number"
                             label="Quantity"
-                            // value={formik.values.quantity}
                             error={formik.touched.quantity && Boolean(formik.errors.quantity)}
                             helperText={formik.touched.quantity && formik.errors.quantity}
-                            // onChange={formik.handleChange}
                         />
                     )}
                     onChange={(_, value) => {
