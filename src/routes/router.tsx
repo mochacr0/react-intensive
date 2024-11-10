@@ -10,6 +10,8 @@ import LoginPage from "../pages/login/LoginPage";
 import RegisterPage from "../pages/register/RegisterPage";
 import VerifyPage from "../pages/verify/VerifyPage";
 import RequiresAuth from "./RequiresAuth";
+import AdminDefaultLayout from "../components/layouts/AdminDefaultLayout";
+import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
 
 const router = createBrowserRouter([
     {
@@ -60,6 +62,16 @@ const router = createBrowserRouter([
             },
         ],
         errorElement: <ErrorPage />,
+    },
+    {
+        path: "/admin",
+        element: <AdminDefaultLayout />,
+        children: [
+            {
+                index: true,
+                element: <AdminDashboard />,
+            },
+        ],
     },
 ]);
 
