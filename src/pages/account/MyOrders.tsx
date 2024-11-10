@@ -3,6 +3,7 @@ import { Box, Button, CardHeader, Chip } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { capitalize, getOrderStatusColor } from "../../common/mock/utils";
 import { useGetOrdersQuery } from "../../redux/features/apiSlice";
+import { DEFAULT_PAGINATION_MODEL } from "../../common/constant";
 
 const columns: GridColDef[] = [
     { field: "orderNumber", headerName: "Order Number", width: 150, align: "center", headerAlign: "center" },
@@ -43,8 +44,6 @@ const columns: GridColDef[] = [
     },
 ];
 
-const paginationModel = { page: 0, pageSize: 5 };
-
 const MyOrders: React.FC = () => {
     const { data, isLoading, isFetching, refetch } = useGetOrdersQuery();
 
@@ -77,7 +76,7 @@ const MyOrders: React.FC = () => {
                 <DataGrid
                     rows={data?.data?.orders || []}
                     columns={columns}
-                    initialState={{ pagination: { paginationModel } }}
+                    initialState={{ pagination: { paginationModel: DEFAULT_PAGINATION_MODEL } }}
                     pageSizeOptions={[5, 10]}
                     sx={{ border: 0 }}
                     getRowId={(row) => row.orderNumber}

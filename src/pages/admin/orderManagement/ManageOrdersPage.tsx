@@ -1,7 +1,46 @@
 import { Box, Divider, Typography } from "@mui/material";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import ConfirmDialog from "../../../components/ConfirmDialog";
 import OrderTable from "../../../components/OrderTable";
+import { useCompleteOrderMutation } from "../../../redux/features/apiSlice";
 
 const ManageOrdersPage: React.FC = () => {
+    const [selectedOrderNumber, setSelectedOrderNumber] = useState<string | null>(null);
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState<boolean>(false);
+    const [completeOrder, completeOrderMutationResult] = useCompleteOrderMutation();
+
+    function handleCloseConfirmDialog() {
+        setIsConfirmDialogOpen(false);
+    }
+
+    function handleOpenConfirmDialog(orderNumber: string) {
+        setSelectedOrderNumber(orderNumber);
+        setIsConfirmDialogOpen(true);
+    }
+
+    async function handleConfirmCompleteOrder() {
+        if (!selectedOrderNumber) {
+            toast.error("No order selected");
+            return;
+        }
+        console.log("Completing order: ", selectedOrderNumber);
+        try {
+            const completeOrderResponse = await completeOrder({
+                orderNumber: selectedOrderNumber,
+            }).unwrap();
+            if (completeOrderResponse.status !== 200) {
+                toast.error(`Failed to complete order: ${completeOrderResponse.message}`);
+                return;
+            }
+            toast.success("Order completed successfully");
+            handleCloseConfirmDialog();
+            return;
+        } catch (error) {
+            toast.error("Failed to complete order");
+            console.log("Failed to complete order", completeOrderMutationResult.error);
+        }
+    }
     return (
         <Box className="mx-5 my-20">
             <Box>
@@ -13,7 +52,15 @@ const ManageOrdersPage: React.FC = () => {
             </Box>
             <Box>
                 <Divider />
-                <OrderTable />
+                <OrderTable handleOpenConfirmDialog={handleOpenConfirmDialog} />
+                <ConfirmDialog
+                    title="Mark as Completed"
+                    warning="Are you sure you want to mark this order as completed? This action cannot be undone."
+                    open={isConfirmDialogOpen}
+                    onClose={handleCloseConfirmDialog}
+                    onConfirm={handleConfirmCompleteOrder}
+                    isLoading={completeOrderMutationResult.isLoading}
+                />
             </Box>
         </Box>
     );

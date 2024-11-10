@@ -3,10 +3,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, Box, Card, IconButton, Rating, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-import { PRODUCT_SAMPLE_URL } from "../common/mock/productSamples";
+import { SAMPLE_IMAGE_URL } from "../common/mock/productSamples";
 import { useGetProductsQuery } from "../redux/features/apiSlice";
-
-const paginationModel = { page: 0, pageSize: 5 };
+import { DEFAULT_PAGINATION_MODEL } from "../common/constant";
 
 type ProductTableProps = {
     openConfirmDeleteDialog: () => void;
@@ -27,7 +26,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ openConfirmDeleteDialog }) 
             renderCell: (params: GridRenderCellParams) => {
                 return (
                     <Box className="flex h-full w-full items-center justify-center">
-                        <Avatar className="h-8 w-8" src={PRODUCT_SAMPLE_URL} alt={params.row.name} />
+                        <Avatar className="h-8 w-8" src={SAMPLE_IMAGE_URL} alt={params.row.name} />
                     </Box>
                 );
             },
@@ -127,7 +126,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ openConfirmDeleteDialog }) 
             <DataGrid
                 rows={data?.data?.products || []}
                 columns={columns}
-                initialState={{ pagination: { paginationModel } }}
+                initialState={{ pagination: { paginationModel: DEFAULT_PAGINATION_MODEL } }}
                 pageSizeOptions={[5, 10]}
                 sx={{ border: 0 }}
                 loading={isLoading}

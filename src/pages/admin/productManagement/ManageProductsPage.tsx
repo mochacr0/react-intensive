@@ -1,33 +1,34 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
-import ProductTable from "../../../components/ProductTable";
-import DeleteProductConfirmDialog from "../../../components/DeleteProductConfirmDialog";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import ConfirmDialog from "../../../components/ConfirmDialog";
+import ProductTable from "../../../components/ProductTable";
 import { useDeleteProductByIdMutation } from "../../../redux/features/apiSlice";
 
 const ManageProductsPage: React.FC = () => {
-    const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState<boolean>(false);
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState<boolean>(false);
     const [deleteProductById, deleteProductByIdMutationResult] = useDeleteProductByIdMutation();
 
-    function closeConfirmDialog() {
-        setIsConfirmDeleteDialogOpen(false);
+    function handleCloseConfirmDialog() {
+        setIsConfirmDialogOpen(false);
     }
 
-    function openConfirmDialog() {
-        setIsConfirmDeleteDialogOpen(true);
+    function handleOpenConfirmDialog() {
+        setIsConfirmDialogOpen(true);
     }
 
     async function handleConfirmDeleteProduct() {
         try {
             const deleteProductResponse = await deleteProductById("1").unwrap();
-            if (deleteProductResponse.status === 200) {
-                toast.success("Product deleted successfully");
-                closeConfirmDialog();
-            } else {
+            if (deleteProductResponse.status !== 200) {
                 toast.error(`Failed to delete product: ${deleteProductResponse.message}`);
+                return;
             }
+            toast.success("Product deleted successfully");
+            handleCloseConfirmDialog();
+            return;
         } catch (error) {
             toast.error("Failed to delete product");
             console.log("Failed to delete product", deleteProductByIdMutationResult.error);
@@ -54,10 +55,12 @@ const ManageProductsPage: React.FC = () => {
             </Box>
             <Box>
                 <Divider />
-                <ProductTable openConfirmDeleteDialog={openConfirmDialog} />
-                <DeleteProductConfirmDialog
-                    open={isConfirmDeleteDialogOpen}
-                    onClose={closeConfirmDialog}
+                <ProductTable openConfirmDeleteDialog={handleOpenConfirmDialog} />
+                <ConfirmDialog
+                    title="Delete Product"
+                    warning="Are you sure you want to delete this product? This action cannot be undone."
+                    open={isConfirmDialogOpen}
+                    onClose={handleCloseConfirmDialog}
                     onConfirm={handleConfirmDeleteProduct}
                     isLoading={deleteProductByIdMutationResult.isLoading}
                 />

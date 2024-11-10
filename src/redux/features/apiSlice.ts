@@ -1,7 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AuthTokenPair, LoginRequest, LoginResponse, VerifyRequest, VerifyResponse } from "../../models/authModels";
 import { GetCategoriesResponse } from "../../models/categoryModels";
-import { GetOrdersRequest, PlaceOrderRequest, PlaceOrderResponse } from "../../models/orderModels";
+import {
+    CompleteOrderRequest,
+    CompleteOrderResponse,
+    GetOrdersRequest,
+    PlaceOrderRequest,
+    PlaceOrderResponse,
+} from "../../models/orderModels";
 import {
     AddProductRequest,
     AddProductResponse,
@@ -89,6 +95,14 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ["Order", "Product"],
         }),
+        completeOrder: builder.mutation<CompleteOrderResponse, CompleteOrderRequest>({
+            query: (completeOrderRequest) => ({
+                url: `/api/shop/order/complete`,
+                method: "POST",
+                body: completeOrderRequest,
+            }),
+            invalidatesTags: ["Order"],
+        }),
     }),
 });
 
@@ -103,4 +117,5 @@ export const {
     useDeleteProductByIdMutation,
     useGetOrdersQuery,
     usePlaceOrderMutation,
+    useCompleteOrderMutation,
 } = apiSlice;

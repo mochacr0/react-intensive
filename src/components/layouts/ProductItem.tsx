@@ -3,7 +3,7 @@ import { Box, Button, Rating, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Product } from "../../models/productModels";
-import { PRODUCT_SAMPLE_URL } from "../../common/mock/productSamples";
+import { SAMPLE_IMAGE_URL } from "../../common/mock/productSamples";
 
 type ProductItemProps = {
     product: Product;
@@ -15,7 +15,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onPlacedOrderButtonC
         <Box className="group relative flex flex-col rounded-lg bg-white transition-transform duration-300 hover:scale-[1.02]">
             {/* Image container */}
             <Box className="relative aspect-square overflow-hidden">
-                <img src={PRODUCT_SAMPLE_URL} alt={product.name} className="h-full w-full object-cover object-center" />
+                <img src={SAMPLE_IMAGE_URL} alt={product.name} className="h-full w-full object-cover object-center" />
 
                 {/* Stock badge */}
                 <Box className="absolute left-2 top-2">
