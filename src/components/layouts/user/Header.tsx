@@ -13,9 +13,9 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/useAppSelector";
-import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
-import { clearAuthTokenPair } from "../../redux/features/tokenSlice";
+import { useAppDispatch } from "../../../hooks/useAppSelector";
+import { useCurrentUserContext } from "../../../providers/CurrentUserProvider";
+import { clearAuthTokenPair } from "../../../redux/features/tokenSlice";
 
 type NavigationItems = {
     name: string;

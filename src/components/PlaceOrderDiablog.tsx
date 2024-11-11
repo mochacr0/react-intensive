@@ -10,9 +10,9 @@ import { useFormik } from "formik";
 import { memo, useMemo } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { PlaceOrderRequest } from "../../models/orderModels";
-import { Product } from "../../models/productModels";
-import { usePlaceOrderMutation } from "../../redux/features/apiSlice";
+import { Product } from "../models/productModels";
+import { PlaceOrderRequest } from "../models/orderModels";
+import { usePlaceOrderMutation } from "../redux/features/apiSlice";
 
 type ProductItemProps = {
     product: Product;
@@ -33,7 +33,7 @@ const validationSchema = Yup.object({
     quantity: Yup.number().required("Quantity is required").min(1, "Quantity must be at least 1"),
 });
 
-const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps) => {
+const PlaceOrderDialog = ({ isOpen, onClose, product }: ProductItemProps) => {
     const formik = useFormik<PlaceOrderFormValues>({
         initialValues,
         validationSchema,
@@ -92,7 +92,7 @@ const PlaceOrderDialog = ({ isOpen, onOpen, onClose, product }: ProductItemProps
                     options={quantityOptions}
                     sx={{ marginTop: 3 }}
                     getOptionLabel={(option) => option.toString()}
-                    inputValue={formik?.values?.quantity?.toString() || ""}
+                    defaultValue={initialValues.quantity}
                     renderInput={(params) => (
                         <TextField
                             name="quantity"

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AuthTokenPair, LoginRequest, LoginResponse, VerifyRequest, VerifyResponse } from "../../models/authModels";
-import { GetCategoriesResponse } from "../../models/categoryModels";
+import { Category, GetCategoriesResponse } from "../../models/categoryModels";
 import {
     CompleteOrderRequest,
     CompleteOrderResponse,
@@ -86,6 +86,20 @@ export const apiSlice = createApi({
         }),
         getCategories: builder.query<GetCategoriesResponse, void>({
             query: () => ({ url: `/api/shop/categories` }),
+            transformResponse: (response: GetCategoriesResponse) => {
+                const filteredCategories = response.data.categories.filter(
+                    (category: Category) => category.code !== null && category.code !== undefined,
+                );
+                return {
+                    ...response,
+                    data: {
+                        ...response.data,
+                        categories: filteredCategories,
+                        totalcategories: filteredCategories.length,
+                        totalPage: Math.ceil(filteredCategories.length / response.data.pageSize),
+                    },
+                };
+            },
         }),
         placeOrder: builder.mutation<PlaceOrderResponse, PlaceOrderRequest>({
             query: (placeOrderRequest) => ({

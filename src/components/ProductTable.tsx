@@ -3,9 +3,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, Box, Card, IconButton, Rating, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-import { SAMPLE_IMAGE_URL } from "../common/mock/productSamples";
 import { useGetProductsQuery } from "../redux/features/apiSlice";
-import { DEFAULT_PAGINATION_MODEL } from "../common/constant";
+import { DEFAULT_PAGINATION_MODEL, SAMPLE_IMAGE_URL } from "../common/constant";
 
 type ProductTableProps = {
     openConfirmDeleteDialog: () => void;

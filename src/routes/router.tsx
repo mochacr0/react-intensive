@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import DefaultLayout from "../components/layouts/DefaultLayout";
 import LoggedUserRouter from "../components/LoggedUserRouter";
 import MyAccountPage from "../pages/account/MyAccountPage";
 import MyOrders from "../pages/account/MyOrders";
@@ -10,11 +9,12 @@ import LoginPage from "../pages/login/LoginPage";
 import RegisterPage from "../pages/register/RegisterPage";
 import VerifyPage from "../pages/verify/VerifyPage";
 import RequiresAuth from "./RequiresAuth";
-import AdminDefaultLayout from "../components/layouts/AdminDefaultLayout";
 import AdminDashboard from "../pages/admin/dashboard/AdminDashboard";
 import ManageProductsPage from "../pages/admin/productManagement/ManageProductsPage";
 import AddProductPage from "../pages/admin/productManagement/AddProductPage";
 import ManageOrdersPage from "../pages/admin/orderManagement/ManageOrdersPage";
+import AdminDefaultLayout from "../components/layouts/admin/AdminDefaultLayout";
+import DefaultLayout from "../components/layouts/user/DefaultLayout";
 
 const router = createBrowserRouter([
     {

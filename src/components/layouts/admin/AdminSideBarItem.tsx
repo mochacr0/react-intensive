@@ -1,6 +1,6 @@
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { RegularSideBarItem as SideBarItemProps } from "../../models/sideBarModels";
+import { RegularSideBarItem as SideBarItemProps } from "../../../models/sideBarModels";
 
 const AdminSideBarItem: React.FC<SideBarItemProps> = ({ name, icon, url }) => {
     return (

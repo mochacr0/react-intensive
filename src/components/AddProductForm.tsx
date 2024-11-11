@@ -27,6 +27,7 @@ const validationSchema = Yup.object({
     productId: Yup.string().required("Product ID is required"),
     productName: Yup.string().required("Product Name is required"),
     categoryName: Yup.string().required("Category is required"),
+    categoryCode: Yup.string().required("Category Code is required"),
     rating: Yup.number().required("Rating is required").min(0.1, "Rating must be at least 0.1"),
     imageUrl: Yup.string().required("Image URL is required"),
     inStock: Yup.number().required("In Stock is required"),

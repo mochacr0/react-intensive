@@ -2,10 +2,10 @@ import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import CategoryIcon from "@mui/icons-material/Category";
+import AdbIcon from "@mui/icons-material/Adb";
 import CollapsedAdminSidebarItem from "./CollapsedAdminSideBarItem";
 import AdminSideBarItem from "./AdminSideBarItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { SideBarItem } from "../../models/sideBarModels";
+import { SideBarItem } from "../../../models/sideBarModels";
 
 const paths: SideBarItem[] = [
     {
@@ -52,13 +52,13 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ sideBarWidth }) => {
                 {paths?.map((path, index) =>
                     "subPaths" in path ? (
                         <CollapsedAdminSidebarItem
-                            key={index}
+                            key={path.name}
                             name={path.name}
                             icon={path.icon}
                             subPaths={path.subPaths}
                         />
                     ) : (
-                        <AdminSideBarItem key={index} name={path.name} icon={path.icon} url={path.url} />
+                        <AdminSideBarItem key={path.name} name={path.name} icon={path.icon} url={path.url} />
                     ),
                 )}
             </List>

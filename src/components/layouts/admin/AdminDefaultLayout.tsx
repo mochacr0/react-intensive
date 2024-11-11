@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
+import RequiresAuth from "../../../routes/RequiresAuth";
 import AdminSidebar from "./AdminSidebar";
-import CustomToastContainer from "../CustomToastContainer";
-import RequiresAuth from "../../routes/RequiresAuth";
+import CustomToastContainer from "../../CustomToastContainer";
 
 const sideBarWidth = 250;
 

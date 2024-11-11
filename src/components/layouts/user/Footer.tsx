@@ -10,7 +10,7 @@ const Footer = () => {
                 {/* Main content */}
                 <Box className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {/* Company Info */}
-                    <Box className="space-y-2">
+                    <Box className="space-y-2 text-right">
                         <Typography variant="h6" className="font-semibold text-gray-800">
                             Store
                         </Typography>

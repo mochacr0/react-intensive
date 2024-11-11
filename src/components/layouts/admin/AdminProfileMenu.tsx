@@ -7,10 +7,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
-import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
-import { useAppDispatch } from "../../hooks/useAppSelector";
 import { useNavigate } from "react-router-dom";
-import { clearAuthTokenPair } from "../../redux/features/tokenSlice";
+import { useAppDispatch } from "../../../hooks/useAppSelector";
+import { useCurrentUserContext } from "../../../providers/CurrentUserProvider";
+import { clearAuthTokenPair } from "../../../redux/features/tokenSlice";
 
 const AdminProfileMenu = () => {
     const dispatch = useAppDispatch();

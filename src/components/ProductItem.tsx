@@ -2,8 +2,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Box, Button, Rating, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Product } from "../../models/productModels";
-import { SAMPLE_IMAGE_URL } from "../../common/mock/productSamples";
+import { Product } from "../models/productModels";
+import { SAMPLE_IMAGE_URL } from "../common/constant";
 
 type ProductItemProps = {
     product: Product;

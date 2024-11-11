@@ -2,11 +2,10 @@ import { Box } from "@mui/material";
 import { memo, useCallback, useState } from "react";
 import { Product } from "../models/productModels";
 import { useGetProductsQuery } from "../redux/features/apiSlice";
-import Loading from "./layouts/Loading";
-import PlaceOrderDialog from "./layouts/PlaceOrderDiablog";
-import ProductItem from "./layouts/ProductItem";
+import Loading from "./Loading";
+import ProductItem from "./ProductItem";
+import PlaceOrderDiablog from "./PlaceOrderDiablog";
 
-// Memoize the ProductItem component to prevent unnecessary re-renders
 const MemoizedProductItem = memo(ProductItem);
 
 const ProductCatalog = () => {
@@ -44,7 +43,7 @@ const ProductCatalog = () => {
                 </Box>
             )}
             {selectedProduct && (
-                <PlaceOrderDialog
+                <PlaceOrderDiablog
                     isOpen={isModalOpen}
                     onOpen={handleOpenModal}
                     onClose={handleCloseModal}

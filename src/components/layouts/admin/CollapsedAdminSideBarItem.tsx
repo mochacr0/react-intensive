@@ -4,7 +4,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import React, { useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { CollapsedSideBarItem as CollapsedSideBarItemProps } from "../../models/sideBarModels";
+import { CollapsedSideBarItem as CollapsedSideBarItemProps } from "../../../models/sideBarModels";
 
 const CollapsedAdminSidebarItem: React.FC<CollapsedSideBarItemProps> = ({ name, icon, subPaths }) => {
     const [open, setOpen] = React.useState(false);
@@ -50,11 +50,11 @@ const CollapsedAdminSidebarItem: React.FC<CollapsedSideBarItemProps> = ({ name, 
             </ListItemButton>
             <Collapse in={open} timeout="auto">
                 <List>
-                    {subPaths.map(({ name, url }, index) => (
-                        <NavLink to={url} style={{ textDecoration: "none" }} key={index} end>
+                    {subPaths.map(({ name, url }) => (
+                        <NavLink to={url} style={{ textDecoration: "none" }} key={url} end>
                             <ListItemButton
                                 className="linkBtn sub-link"
-                                key={index}
+                                key={url}
                                 sx={{
                                     "&:hover": { backgroundColor: "#172032" },
                                     paddingY: "8px",
