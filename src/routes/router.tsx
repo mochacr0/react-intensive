@@ -20,6 +20,7 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <DefaultLayout />,
+        errorElement: <ErrorPage homeUrl="/" />,
         children: [
             {
                 path: "/",
@@ -64,10 +65,9 @@ const router = createBrowserRouter([
                 ],
             },
         ],
-        errorElement: <ErrorPage />,
     },
     {
-        path: "/admin",
+        path: "admin",
         element: <AdminDefaultLayout />,
         children: [
             {
