@@ -1,18 +1,20 @@
+import { BaseRespone } from "./commonModels";
+
 export interface Order {
     orderNumber: number;
     sku: string;
     status: string;
-    rating: number;
     payment: {
         amount: number;
         received: number;
     };
     product: {
         name: string;
-        image: string;
+        image?: string;
         regular_price: number;
         sale_price?: number;
     };
+    customer: string;
     created: string;
     updated: string;
 }
@@ -39,5 +41,13 @@ export interface PlaceOrderRequest {
 export interface PlaceOrderResponse {
     status: number;
     message: string;
+    data: Order;
+}
+
+export interface CompleteOrderRequest {
+    orderNumber: string;
+}
+
+export interface CompleteOrderResponse extends BaseRespone {
     data: Order;
 }

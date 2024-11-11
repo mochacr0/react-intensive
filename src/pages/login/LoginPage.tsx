@@ -1,6 +1,8 @@
-import LoginForm from "../../components/layouts/LoginForm";
+import LoginForm from "../../components/LoginForm";
 
 const LoginPage = () => {
+    document.title = "Shop | Login";
+
     return <LoginForm />;
 };
 

@@ -4,6 +4,8 @@ import VerifyForm from "../../components/VerifyForm";
 import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
 
 const VerifyPage = () => {
+    document.title = "Shop | Verify Email";
+
     const navigate = useNavigate();
     const { currentUser } = useCurrentUserContext();
 

@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import DefaultLayout from "../components/layouts/DefaultLayout";
 import LoggedUserRouter from "../components/LoggedUserRouter";
 import MyAccountPage from "../pages/account/MyAccountPage";
 import MyOrders from "../pages/account/MyOrders";
@@ -10,11 +9,18 @@ import LoginPage from "../pages/login/LoginPage";
 import RegisterPage from "../pages/register/RegisterPage";
 import VerifyPage from "../pages/verify/VerifyPage";
 import RequiresAuth from "./RequiresAuth";
+import AdminDashboard from "../pages/admin/dashboard/AdminDashboard";
+import ManageProductsPage from "../pages/admin/productManagement/ManageProductsPage";
+import AddProductPage from "../pages/admin/productManagement/AddProductPage";
+import ManageOrdersPage from "../pages/admin/orderManagement/ManageOrdersPage";
+import AdminDefaultLayout from "../components/layouts/admin/AdminDefaultLayout";
+import DefaultLayout from "../components/layouts/user/DefaultLayout";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <DefaultLayout />,
+        errorElement: <ErrorPage homeUrl="/" />,
         children: [
             {
                 path: "/",
@@ -26,7 +32,7 @@ const router = createBrowserRouter([
                 index: true,
             },
             {
-                path: "/register",
+                path: "register",
                 element: (
                     <LoggedUserRouter>
                         <RegisterPage />
@@ -34,7 +40,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/verify",
+                path: "verify",
                 element: (
                     <LoggedUserRouter>
                         <VerifyPage />
@@ -42,7 +48,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/login",
+                path: "login",
                 element: (
                     <LoggedUserRouter>
                         <LoginPage />
@@ -50,7 +56,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/account",
+                path: "account",
                 element: <MyAccountPage />,
                 children: [
                     { path: "", element: <MyProfile />, index: true },
@@ -59,7 +65,28 @@ const router = createBrowserRouter([
                 ],
             },
         ],
-        errorElement: <ErrorPage />,
+    },
+    {
+        path: "admin",
+        element: <AdminDefaultLayout />,
+        children: [
+            {
+                index: true,
+                element: <AdminDashboard />,
+            },
+            {
+                path: "products",
+                element: <ManageProductsPage />,
+            },
+            {
+                path: "products/add",
+                element: <AddProductPage />,
+            },
+            {
+                path: "orders",
+                element: <ManageOrdersPage />,
+            },
+        ],
     },
 ]);
 

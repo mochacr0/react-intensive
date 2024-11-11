@@ -1,14 +1,22 @@
+import { CssBaseline, StyledEngineProvider } from "@mui/material";
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { CssBaseline, StyledEngineProvider } from "@mui/material";
+import AdminThemeProvider from "./providers/AdminThemeProvider.tsx";
 
-createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <StyledEngineProvider injectFirst>
-            <CssBaseline />
-            <App />
-        </StyledEngineProvider>
-    </StrictMode>,
-);
+const rootElement = document.getElementById("root");
+
+if (rootElement) {
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(
+        <StrictMode>
+            <StyledEngineProvider injectFirst>
+                <AdminThemeProvider rootElement={rootElement}>
+                    <CssBaseline />
+                    <App />
+                </AdminThemeProvider>
+            </StyledEngineProvider>
+        </StrictMode>,
+    );
+}

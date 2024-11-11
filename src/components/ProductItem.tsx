@@ -2,22 +2,20 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Box, Button, Rating, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Product } from "../../models/productModels";
+import { Product } from "../models/productModels";
+import { SAMPLE_IMAGE_URL } from "../common/constant";
 
 type ProductItemProps = {
     product: Product;
     onPlacedOrderButtonClicked: (product: Product) => void;
 };
 
-const productUrlSample =
-    "https://res.cloudinary.com/delbtan9t/image/upload/v1717744804/343918d9-1c40-45d5-a8eb-45e7ab53bab0.jpg";
-
 const ProductItem: React.FC<ProductItemProps> = ({ product, onPlacedOrderButtonClicked }) => {
     return (
         <Box className="group relative flex flex-col rounded-lg bg-white transition-transform duration-300 hover:scale-[1.02]">
             {/* Image container */}
             <Box className="relative aspect-square overflow-hidden">
-                <img src={productUrlSample} alt={product.name} className="h-full w-full object-cover object-center" />
+                <img src={SAMPLE_IMAGE_URL} alt={product.name} className="h-full w-full object-cover object-center" />
 
                 {/* Stock badge */}
                 <Box className="absolute left-2 top-2">
@@ -49,7 +47,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onPlacedOrderButtonC
                 {/* Price and Add to Cart */}
                 <Box className="flex flex-col items-center justify-between gap-2 justify-self-end md:flex-row md:gap-0">
                     <Typography variant="body2" className="text-lg font-medium text-gray-900">
-                        ${product.sale_price.toFixed(2)}
+                        ${product.sale_price}
                     </Typography>
                     <Button
                         onClick={() => {

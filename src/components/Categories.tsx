@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import Carousel from "react-multi-carousel";
 import { useGetCategoriesQuery } from "../redux/features/apiSlice";
-import CategoryItem from "./layouts/CategoryItem";
-import Loading from "./layouts/Loading";
+import CategoryItem from "./CategoryItem";
+import Loading from "./Loading";
 
 const responsive = {
     superLargeDesktop: {

@@ -1,8 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AuthTokenPair, LoginRequest, LoginResponse, VerifyRequest, VerifyResponse } from "../../models/authModels";
-import { GetCategoriesResponse } from "../../models/categoryModels";
-import { GetOrdersRequest, PlaceOrderRequest, PlaceOrderResponse } from "../../models/orderModels";
-import { GetProductResponse } from "../../models/productModels";
+import { Category, GetCategoriesResponse } from "../../models/categoryModels";
+import {
+    CompleteOrderRequest,
+    CompleteOrderResponse,
+    GetOrdersRequest,
+    PlaceOrderRequest,
+    PlaceOrderResponse,
+} from "../../models/orderModels";
+import {
+    AddProductRequest,
+    AddProductResponse,
+    DeleteProductResponse,
+    GetProductResponse,
+} from "../../models/productModels";
 import { RegisterRequest, RegisterResponse } from "../../models/registerModel";
 import { GetUserInfoResponse } from "../../models/userInfoModel";
 
@@ -58,8 +69,37 @@ export const apiSlice = createApi({
             query: () => ({ url: `/api/shop/products` }),
             providesTags: ["Product"],
         }),
+        addProduct: builder.mutation<AddProductResponse, AddProductRequest>({
+            query: (addProductRequest) => ({
+                url: `/api/shop/product`,
+                method: "POST",
+                body: addProductRequest,
+            }),
+            invalidatesTags: ["Product"],
+        }),
+        deleteProductById: builder.mutation<DeleteProductResponse, string>({
+            query: (productId) => ({
+                url: `/api/shop/product/${productId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Product"],
+        }),
         getCategories: builder.query<GetCategoriesResponse, void>({
             query: () => ({ url: `/api/shop/categories` }),
+            transformResponse: (response: GetCategoriesResponse) => {
+                const filteredCategories = response.data.categories.filter(
+                    (category: Category) => category.code !== null && category.code !== undefined,
+                );
+                return {
+                    ...response,
+                    data: {
+                        ...response.data,
+                        categories: filteredCategories,
+                        totalcategories: filteredCategories.length,
+                        totalPage: Math.ceil(filteredCategories.length / response.data.pageSize),
+                    },
+                };
+            },
         }),
         placeOrder: builder.mutation<PlaceOrderResponse, PlaceOrderRequest>({
             query: (placeOrderRequest) => ({
@@ -69,6 +109,14 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ["Order", "Product"],
         }),
+        completeOrder: builder.mutation<CompleteOrderResponse, CompleteOrderRequest>({
+            query: (completeOrderRequest) => ({
+                url: `/api/shop/order/complete`,
+                method: "POST",
+                body: completeOrderRequest,
+            }),
+            invalidatesTags: ["Order"],
+        }),
     }),
 });
 
@@ -77,8 +125,13 @@ export const {
     useVerifyMutation,
     useLoginMutation,
     useLazyGetUserInfoQuery,
-    useGetOrdersQuery,
-    useGetProductsQuery,
     useGetCategoriesQuery,
+    useGetProductsQuery,
+    useLazyGetProductsQuery,
+    useAddProductMutation,
+    useDeleteProductByIdMutation,
+    useGetOrdersQuery,
+    useLazyGetOrdersQuery,
     usePlaceOrderMutation,
+    useCompleteOrderMutation,
 } = apiSlice;
