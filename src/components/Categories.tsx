@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Carousel from "react-multi-carousel";
-import { useGetCategoriesQuery } from "../redux/features/apiSlice";
+import { useGetCategoriesQuery } from "../redux/features/categoryApiSlice";
 import CategoryItem from "./CategoryItem";
 import Loading from "./Loading";
 

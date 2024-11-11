@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { AddProductRequest } from "../models/productModels";
-import { useAddProductMutation, useGetCategoriesQuery } from "../redux/features/apiSlice";
+import { useGetCategoriesQuery } from "../redux/features/categoryApiSlice";
+import { useAddProductMutation } from "../redux/features/productApiSlice";
 
 type AddProductFormValues = {
     productId: string;

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { memo, useCallback, useState } from "react";
 import { Product } from "../models/productModels";
-import { useGetProductsQuery } from "../redux/features/apiSlice";
+import { useGetProductsQuery } from "../redux/features/productApiSlice";
 import Loading from "./Loading";
 import ProductItem from "./ProductItem";
 import PlaceOrderDiablog from "./PlaceOrderDiablog";

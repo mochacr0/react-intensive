@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import ConfirmDialog from "../../../components/ConfirmDialog";
 import ProductTable from "../../../components/ProductTable";
-import { useDeleteProductByIdMutation, useLazyGetProductsQuery } from "../../../redux/features/apiSlice";
+import { useDeleteProductByIdMutation, useLazyGetProductsQuery } from "../../../redux/features/productApiSlice";
 
 const ManageProductsPage: React.FC = () => {
     document.title = "Shop | Manage Products";
