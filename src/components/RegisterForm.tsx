@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { RegisterRequest } from "../models/registerModel";
-import { useRegisterMutation } from "../redux/features/apiSlice";
+import { useRegisterMutation } from "../redux/features/userApiSlice";
 
 type RegisterFormValues = {
     email: string;

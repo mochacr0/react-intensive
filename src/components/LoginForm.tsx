@@ -6,8 +6,8 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { useLoginMutation } from "../redux/features/apiSlice";
 import { LoginRequest } from "../models/authModels";
+import { useLoginMutation } from "../redux/features/authApiSlice";
 
 type LoginFormValues = {
     username: string;

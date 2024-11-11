@@ -9,8 +9,9 @@ import * as Yup from "yup";
 import { useAppDispatch } from "../hooks/useAppSelector";
 import { AuthTokenPair, VerifyRequest } from "../models/authModels";
 import { useCurrentUserContext } from "../providers/CurrentUserProvider";
-import { useLazyGetUserInfoQuery, useVerifyMutation } from "../redux/features/apiSlice";
+import { useVerifyMutation } from "../redux/features/authApiSlice";
 import { setAuthTokenPair } from "../redux/features/tokenSlice";
+import { useLazyGetUserInfoQuery } from "../redux/features/userApiSlice";
 
 type VerifyFormValues = {
     username: string;

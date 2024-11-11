@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Product } from "../models/productModels";
 import { PlaceOrderRequest } from "../models/orderModels";
-import { usePlaceOrderMutation } from "../redux/features/apiSlice";
+import { usePlaceOrderMutation } from "../redux/features/orderApiSlice";
 
 type ProductItemProps = {
     product: Product;

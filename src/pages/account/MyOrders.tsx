@@ -2,7 +2,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Box, Button, CardHeader, Chip } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { capitalize, getOrderStatusColor } from "../../common/mock/utils";
-import { useGetOrdersQuery } from "../../redux/features/apiSlice";
+import { useGetOrdersQuery } from "../../redux/features/orderApiSlice";
 import { DEFAULT_PAGINATION_MODEL } from "../../common/constant";
 
 const columns: GridColDef[] = [
@@ -10,7 +10,7 @@ const columns: GridColDef[] = [
     {
         field: "totalPayment",
         headerName: "Total Payment",
-        width: 180,
+        width: 170,
         valueGetter: (_, row) => `${row.payment.amount}`,
         align: "center",
         headerAlign: "center",

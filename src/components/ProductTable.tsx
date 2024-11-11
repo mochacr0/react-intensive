@@ -3,7 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, Box, Card, IconButton, Rating, Typography } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-import { useGetProductsQuery } from "../redux/features/apiSlice";
+import { useGetProductsQuery } from "../redux/features/productApiSlice";
 import { DEFAULT_PAGINATION_MODEL, SAMPLE_IMAGE_URL } from "../common/constant";
 
 type ProductTableProps = {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import ConfirmDialog from "../../../components/ConfirmDialog";
 import OrderTable from "../../../components/OrderTable";
-import { useCompleteOrderMutation, useLazyGetOrdersQuery } from "../../../redux/features/apiSlice";
+import { useCompleteOrderMutation, useLazyGetOrdersQuery } from "../../../redux/features/orderApiSlice";
 
 const ManageOrdersPage: React.FC = () => {
     document.title = "Shop | Manage Orders";

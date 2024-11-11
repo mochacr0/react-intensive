@@ -4,7 +4,7 @@ import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import React from "react";
 import { DEFAULT_PAGINATION_MODEL } from "../common/constant";
 import { capitalize, getOrderStatusColor } from "../common/mock/utils";
-import { useGetOrdersQuery } from "../redux/features/apiSlice";
+import { useGetOrdersQuery } from "../redux/features/orderApiSlice";
 
 type OrderTableProps = {
     handleOpenConfirmDialog: (orderNumber: string) => void;
