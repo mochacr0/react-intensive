@@ -30,7 +30,9 @@ cd react-intensive
 
 ```bash
 npm install
-# or
+```
+or
+```base
 yarn install
 ```
 
@@ -40,12 +42,14 @@ yarn install
 VITE_API_BASE_URL=https://api.example.com
 ```
 
-3. **Start the development server:** Start the development server to run the application locally:
+4. **Start the development server:** Start the development server to run the application locally:
 
 ```bash
 npm run dev
-# or
+```
+or
+```bash
 yarn dev
 ```
 
-The application will be available at `http://localhost:3000`
+The application will be available at http://localhost:3000
