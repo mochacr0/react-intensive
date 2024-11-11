@@ -3,6 +3,8 @@ import Grid from "@mui/material/Grid2";
 import { useCurrentUserContext } from "../../providers/CurrentUserProvider";
 
 const MyProfile: React.FC = () => {
+    document.title = "Shop | My Profile";
+
     const { currentUser } = useCurrentUserContext();
     return (
         <>

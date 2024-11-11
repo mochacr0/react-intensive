@@ -37,6 +37,8 @@ const columns: GridColDef[] = [
 ];
 
 const MyOrders: React.FC = () => {
+    document.title = "Shop | My Orders";
+
     const { data, isLoading, isFetching, refetch } = useGetOrdersQuery();
 
     function isLoadingOrders() {

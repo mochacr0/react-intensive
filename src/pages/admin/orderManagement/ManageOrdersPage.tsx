@@ -7,6 +7,8 @@ import OrderTable from "../../../components/OrderTable";
 import { useCompleteOrderMutation, useLazyGetOrdersQuery } from "../../../redux/features/apiSlice";
 
 const ManageOrdersPage: React.FC = () => {
+    document.title = "Shop | Manage Orders";
+
     const [selectedOrderNumber, setSelectedOrderNumber] = useState<string | null>(null);
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState<boolean>(false);
     const [completeOrder, completeOrderMutationResult] = useCompleteOrderMutation();

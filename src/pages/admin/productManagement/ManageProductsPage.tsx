@@ -10,6 +10,8 @@ import ProductTable from "../../../components/ProductTable";
 import { useDeleteProductByIdMutation, useLazyGetProductsQuery } from "../../../redux/features/apiSlice";
 
 const ManageProductsPage: React.FC = () => {
+    document.title = "Shop | Manage Products";
+
     const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState<boolean>(false);
     const [deleteProductById, deleteProductByIdMutationResult] = useDeleteProductByIdMutation();
     const [getProductsQueryTrigger, getProductsQueryResult] = useLazyGetProductsQuery();
